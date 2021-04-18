@@ -1,8 +1,4 @@
-/***********************************************************************
- * Module:  Seance.java
- * Author:  DELL
- * Purpose: Defines the Class Seance
- ***********************************************************************/
+
 package ma.GymPro.beans;
 import javax.persistence.*;
 
@@ -13,11 +9,11 @@ public class Seance {
    private int id;
    private int heureDebut;
    private int heureFin;
-   @ManyToOne
+   @ManyToOne(cascade = {CascadeType.PERSIST})
    private Cours cours;
    @ManyToOne
    private Jour jour;
-   @ManyToOne (cascade = CascadeType.ALL)
+   @ManyToOne
    private Coach coach;
 
    public void affecterCoach(Coach coach) throws Exception {

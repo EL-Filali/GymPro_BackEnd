@@ -7,6 +7,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
+import java.time.Instant;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,15 +17,18 @@ import java.util.Map;
 public class JwtTokenProvider {
 
     //Generate the token
-    @Value("($security.expiration_time)")
-    private String EXPIRATION_TIME;
-    @Value("$(security.secret)")
+    @Value("${security.expiration_time}")
+    private Integer EXPIRATION_TIME;
+    @Value("${security.secret}")
     private String SECRET;
     public String generateToken(Authentication authentication){
         User user = (User)authentication.getPrincipal();
         Date now = new Date(System.currentTimeMillis());
+        Calendar calendar = Calendar.getInstance(); // gets a calendar using the default time zone and locale.
+        calendar.add(Calendar.MINUTE, EXPIRATION_TIME);
+        Date expiryDate = calendar.getTime();
 
-        Date expiryDate = new Date(now.getTime()+EXPIRATION_TIME);
+
 
         String userId = Long.toString(user.getId());
 

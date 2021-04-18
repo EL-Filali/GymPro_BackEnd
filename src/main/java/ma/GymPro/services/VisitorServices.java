@@ -4,6 +4,7 @@ import antlr.BaseAST;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ma.GymPro.beans.Client;
 import ma.GymPro.beans.Cours;
+import ma.GymPro.beans.Suspendu;
 import ma.GymPro.beans.User;
 import ma.GymPro.config.JwtTokenProvider;
 import ma.GymPro.repositories.CoursRepository;
@@ -35,16 +36,16 @@ public class VisitorServices {
     BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     AuthenticationManager   authenticationManager;
-    @Value("$(security.token_prefix)")
+    @Value("${security.token_prefix}")
     private String TOKEN_PREFIX;
     @Autowired
     JwtTokenProvider tokenProvider;
     @Autowired
     CoursRepository coursRepository;
 
-    public ConnexionResponse  connexion( ConnexionRequest loginResponse){
+    public ConnexionResponse  connexion( ConnexionRequest request){
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginResponse.getEmail(),loginResponse.getPassword()));
+                new UsernamePasswordAuthenticationToken(request.getEmail(),request.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = TOKEN_PREFIX + tokenProvider.generateToken(authentication);
         User user = (User) authentication.getPrincipal();
@@ -69,7 +70,7 @@ public class VisitorServices {
         return connexionResponse;
     }
 
-    public List<Cours> getAllCours(){
+    public List<Cours> getAllCourse(){
         return  coursRepository.findAll();
     }
 

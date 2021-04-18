@@ -1,8 +1,4 @@
-/***********************************************************************
- * Module:  Profil.java
- * Author:  DELL
- * Purpose: Defines the Class Profil
- ***********************************************************************/
+
 package ma.GymPro.beans;
 import ma.GymPro.beans.Conversation;
 import ma.GymPro.beans.NfcTag;
@@ -22,6 +18,9 @@ public  class Profil {
    private Date dateNaissance;
    private String genre;
    private String telephone;
+
+   public Profil() {
+   }
 
    public Profil(Long id, String nom, String prenom, String cin, Date dateNaissance, String genre, String telephone) {
       this.id = id;

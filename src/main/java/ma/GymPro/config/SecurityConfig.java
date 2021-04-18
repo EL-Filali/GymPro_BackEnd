@@ -34,11 +34,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {return  new JwtAuthenticationFilter();}
+
     @Value("${spring.social.facebook.appSecret}")
     String appSecret;
 
     @Value("${spring.social.facebook.appId}")
     String appId;
+
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -64,8 +66,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
 
-                .antMatchers("/api/connexion","/api/register").permitAll()
-
+                .antMatchers("/api/connexion","/api/register","/api/a").permitAll()
+                .antMatchers("/api/user/*").hasAnyAuthority("admin","responsable","coach","client")
                 .antMatchers("/api/admin/*").hasAnyAuthority("admin")
                 .antMatchers("/api/responsable/*").hasAnyAuthority("responsable")
                 .antMatchers("/api/coach/*").hasAnyAuthority("coach")

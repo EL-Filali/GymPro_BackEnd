@@ -1,12 +1,9 @@
-/***********************************************************************
- * Module:  Suspendu.java
- * Author:  DELL
- * Purpose: Defines the Class Suspendu
- ***********************************************************************/
+
 package ma.GymPro.beans;
 
+import javax.persistence.Entity;
 import java.util.*;
-
+@Entity
 public class Suspendu extends StatusClient {
 
    public Suspendu(){

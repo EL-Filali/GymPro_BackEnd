@@ -1,23 +1,28 @@
-/***********************************************************************
- * Module:  Client.java
- * Author:  DELL
- * Purpose: Defines the Class Client
- ***********************************************************************/
+
 package ma.GymPro.beans;
+import org.springframework.data.annotation.Transient;
+
 import javax.persistence.*;
 import java.util.*;
 @Entity
 public class Client extends User {
 
    private Date dateFinAbonnement;
+
    private Boolean suspendu;
-   @OneToOne
+
+   @ManyToOne
    private StatusClient statusClient;
    @OneToMany
    private List<Achat> achat;
+
+   public Client() {
+
+   }
    @PrePersist
    private void onPresiste(){
-      this.statusClient=new Suspendu();
+      this.isBanned=false;
+     this.statusClient=new Suspendu();
       this.dateCreation=new Date();
       this.suspendu=true;
       super.role="client";
@@ -77,9 +82,7 @@ public class Client extends User {
       this.achat = achat;
    }
 
-   public Client() {
-      super();
-   }
+
 
 
 

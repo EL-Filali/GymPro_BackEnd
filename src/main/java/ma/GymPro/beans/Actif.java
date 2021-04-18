@@ -6,9 +6,10 @@ package ma.GymPro.beans; /******************************************************
 
 import ma.GymPro.beans.StatusClient;
 
+import javax.persistence.Entity;
 import java.util.*;
 
-
+@Entity
 public class Actif extends StatusClient {
 
   public Actif(){

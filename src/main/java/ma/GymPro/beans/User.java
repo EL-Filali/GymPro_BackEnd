@@ -1,11 +1,9 @@
-package ma.GymPro.beans; /***********************************************************************
- * Module:  User.java
- * Author:  DELL
- * Purpose: Defines the Class User
- ***********************************************************************/
+package ma.GymPro.beans;
 
 import ma.GymPro.beans.Profil;
+import net.minidev.json.annotate.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.annotation.Generated;
@@ -18,13 +16,16 @@ public abstract class User implements UserDetails {
    @GeneratedValue
    protected Long id;
    protected String email;
-   protected  Boolean isBanned=false;
+   @JsonIgnore
+   protected  Boolean isBanned;
    protected String password;
-   @OneToOne
+   @OneToOne(cascade = {CascadeType.ALL},orphanRemoval = true)
    protected Profil profil;
    protected String role;
+   @JsonIgnore
    protected Date dateCreation;
-   @OneToOne
+
+   @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
    protected NfcTag tag;
    @OneToMany
    protected List<Conversation> conversations;
@@ -46,7 +47,9 @@ public abstract class User implements UserDetails {
 
    @Override
    public Collection<? extends GrantedAuthority> getAuthorities() {
-      return null;
+      List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+      authorities.add(new SimpleGrantedAuthority(this.role));
+      return authorities;
    }
 
 
@@ -56,27 +59,27 @@ public abstract class User implements UserDetails {
 
    @Override
    public String getUsername() {
-      return null;
+      return email;
    }
 
    @Override
    public boolean isAccountNonExpired() {
-      return false;
+      return true;
    }
 
    @Override
    public boolean isAccountNonLocked() {
-      return false;
+      return true;
    }
 
    @Override
    public boolean isCredentialsNonExpired() {
-      return false;
+      return true;
    }
 
    @Override
    public boolean isEnabled() {
-      return isBanned;
+      return true;
    }
 
    public void setPassword(String password) {

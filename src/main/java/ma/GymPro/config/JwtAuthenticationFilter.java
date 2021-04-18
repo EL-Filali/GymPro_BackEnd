@@ -26,9 +26,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
     private CustomUserDetailsServices customUserDetailsService;
-    @Value("$(security.token_prefix)")
+    @Value("${security.token_prefix}")
     private String TOKEN_PREFIX;
-    @Value("$(security.header_string)")
+    @Value("${security.header_string}")
     private String HEADER_STRING;
 
     @Override

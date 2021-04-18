@@ -1,8 +1,10 @@
 package ma.GymPro.controller;
 
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("/api/client/")
+@RestController
+@RequestMapping("/api/client/")
 public class ClientController {
 
 

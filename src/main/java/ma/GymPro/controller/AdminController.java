@@ -8,7 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController("/api/admin/")
+@RestController
+@RequestMapping("/api/admin/")
 public class AdminController {
 
 
@@ -41,7 +42,7 @@ public class AdminController {
     }
 
     @GetMapping("clients/{id}")
-    public ResponseEntity<?> getClient(Long id) throws Exception {
+    public ResponseEntity<?> getClient(@PathVariable Long id) throws Exception {
         try{
             return new ResponseEntity(adminServices.getClientById(id), HttpStatus.OK);
         }catch(Exception e){
@@ -52,7 +53,7 @@ public class AdminController {
 
 
     @GetMapping("employes/{id}")
-    public ResponseEntity<?> getEmployee(Long id){
+    public ResponseEntity<?> getEmployee(@PathVariable Long id){
         try{
             return new ResponseEntity(adminServices.getEmployeById(id), HttpStatus.OK);
         }catch(Exception e){
@@ -61,7 +62,7 @@ public class AdminController {
     }
 
     @DeleteMapping("employes/{id}")
-    public ResponseEntity<?> disableOrEnableEmploye(Long id){
+    public ResponseEntity<?> disableOrEnableEmploye(@PathVariable Long id){
         try{
             adminServices.disableOrEnableEmploye(id);
             return new ResponseEntity( HttpStatus.OK);
@@ -70,7 +71,7 @@ public class AdminController {
         }
     }
     @DeleteMapping("clients/{id}")
-    public ResponseEntity<?> disableOrEnableClient(Long id){
+    public ResponseEntity<?> disableOrEnableClient(@PathVariable Long id){
         try{
             adminServices.disableOrEnableClient(id);
             return new ResponseEntity( HttpStatus.OK);
@@ -79,7 +80,7 @@ public class AdminController {
         }
     }
     @PostMapping("responsable")
-    public ResponseEntity<?> postResponsable(Responsable responsable){
+    public ResponseEntity<?> postResponsable(@RequestBody Responsable responsable){
         try{
             adminServices.addEmploye(responsable);
             return new ResponseEntity( HttpStatus.OK);
@@ -89,7 +90,7 @@ public class AdminController {
         }
     }
     @PostMapping("coach")
-    public ResponseEntity<?> postCoach(Coach coach){
+    public ResponseEntity<?> postCoach(@RequestBody Coach coach){
         try{
             adminServices.addEmploye(coach);
             return new ResponseEntity( HttpStatus.OK);

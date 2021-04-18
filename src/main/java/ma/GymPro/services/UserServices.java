@@ -29,6 +29,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -54,11 +55,16 @@ public class UserServices {
     }
 
     public void updateProfile(Profil profil,String email){
-         userRepository.updateProfil(profil,email);
+        User    user =userRepository.findByEmail(email);
+        user.setProfil(profil);
+         userRepository.save(user);
     }
 
     public void updateMotDePasse(String motDePasse,String email){
-        userRepository.updatePassword(bCryptPasswordEncoder.encode(motDePasse),email );
+        System.out.println(motDePasse);
+        String encodedPass=bCryptPasswordEncoder.encode(motDePasse);
+        userRepository.updatePassword(encodedPass,email );
+    System.out.println(bCryptPasswordEncoder.matches(encodedPass,motDePasse));
     }
 
     public Profil getProfil(String name) {
@@ -81,9 +87,13 @@ public class UserServices {
 
    public void saveImg(String name,MultipartFile file){
         User user = userRepository.findByEmail(name);
-
+        String path;
         File file1=convertMultiPartFileToFile(file);
-       user.getProfil().setImgFileName(user.getProfil().getCin()+"_"+file1.getName());
+       Profil profil =user.getProfil();
+       path=user.getProfil().getCin()+"_"+file1.getName()+"_"+new Date().toString();
+       profil.setImgFileName(path);
+       user.setProfil(profil);
+       userRepository.save(user);
        amazonS3.putObject(
                bucketName, user.getProfil().getImgFileName(),file1);
    }
@@ -99,6 +109,9 @@ public class UserServices {
    public void deleteImg(String name){
        User user = userRepository.findByEmail(name);
        amazonS3.deleteObject(bucketName,user.getProfil().getImgFileName());
+       Profil profil= user.getProfil();
+       user.getProfil().setImgFileName(null);
+       userRepository.save(user);
    }
 
 }

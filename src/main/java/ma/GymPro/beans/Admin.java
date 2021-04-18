@@ -1,8 +1,3 @@
-/***********************************************************************
- * Module:  Admin.java
- * Author:  DELL
- * Purpose: Defines the Class Admin
- ***********************************************************************/
 package ma.GymPro.beans;
 import javax.persistence.Entity;
 import javax.persistence.PrePersist;
@@ -15,9 +10,14 @@ public class Admin extends User {
     private void onPresiste(){
 
         this.dateCreation=new Date();
-
-        super.role="Admin";
+        this.isBanned=false;
+        super.role="admin";
     }
 
+    public Admin(Long id, String email, Boolean isBanned, String password, Profil profil, String role, Date dateCreation) {
+        super(id, email, isBanned, password, profil, role, dateCreation);
+    }
 
+    public Admin() {
+    }
 }

@@ -1,8 +1,4 @@
-/***********************************************************************
- * Module:  Coeach.java
- * Author:  DELL
- * Purpose: Defines the Class Coeach
- ***********************************************************************/
+
 package ma.GymPro.beans;
 
 import javax.persistence.*;
@@ -12,7 +8,7 @@ public class Coach extends Employe {
 
    private int nbSeance;
    private int maxNbSeance;
-   @OneToMany
+   @OneToMany(cascade = {CascadeType.REMOVE})
    private List<Seance> seances;
 
    @PrePersist
