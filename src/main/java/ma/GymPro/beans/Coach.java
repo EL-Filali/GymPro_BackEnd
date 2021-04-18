@@ -16,6 +16,7 @@ public class Coach extends Employe {
       this.nbSeance=0;
       this.dateCreation=new Date();
       super.role="coach";
+      isBanned=false;
    }
 
    public Long getId() {

@@ -15,7 +15,7 @@ import java.util.*;
 public class Responsable extends Employe  {
    @PrePersist
    private void onPresiste(){
-
+      super.isBanned=false;
       this.dateCreation=new Date();
       super.role="responsable";
    }
