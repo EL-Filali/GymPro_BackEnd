@@ -4,11 +4,21 @@
  * Purpose: Defines the Class Service
  ***********************************************************************/
 package ma.GymPro.beans;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
+import java.awt.print.Book;
 import java.util.*;
 
-@Entity
+@Entity @Getter @Setter
 @Inheritance(strategy = InheritanceType.JOINED)
+@JsonSubTypes({
+                @JsonSubTypes.Type(value = Abonnement.class, name = "Abonnement"),
+        })
+@JsonDeserialize(as = Abonnement.class)
 public abstract class Service {
    @Id
    @GeneratedValue
@@ -16,29 +26,14 @@ public abstract class Service {
 
    protected float prix;
 
-   protected int description;
+   protected String description;
 
-   public Long getId() {
-      return id;
-   }
-
-   public void setId(Long id) {
+   public Service(Long id, float prix, String description) {
       this.id = id;
-   }
-
-   public float getPrix() {
-      return prix;
-   }
-
-   public void setPrix(float prix) {
       this.prix = prix;
-   }
-
-   public int getDescription() {
-      return description;
-   }
-
-   public void setDescription(int description) {
       this.description = description;
+   }
+
+   public Service() {
    }
 }

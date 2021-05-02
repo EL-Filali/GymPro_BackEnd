@@ -13,7 +13,11 @@ public class Suspendu extends StatusClient {
     @Override
     public void achatAbonnement(Client client,Abonnement abonnement ){
         Date date=new Date();
-        date.setMonth(abonnement.getDuree());
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, abonnement.getDuree());
+        date = calendar.getTime();
+
         client.setSuspendu(false);
         client.setStatusClient(new Actif());
         client.setDateFinAbonnement(date);

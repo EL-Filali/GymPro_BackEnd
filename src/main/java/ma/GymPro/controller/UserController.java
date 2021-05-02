@@ -2,6 +2,7 @@ package ma.GymPro.controller;
 
 
 import ma.GymPro.beans.Profil;
+import ma.GymPro.beans.Service;
 import ma.GymPro.responses.ConnexionRequest;
 import ma.GymPro.services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +82,28 @@ public class UserController {
         } catch (Exception e) {
             return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping("services")
+    public ResponseEntity getServices(){
+        try {
+
+            return new ResponseEntity(userServices.getAllServices(),HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(e, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("service/{id}")
+    public ResponseEntity getservice(@PathVariable Long  id){
+            try {
+
+                return new ResponseEntity(userServices.getService(id),HttpStatus.OK);
+            } catch (Exception e) {
+                return new ResponseEntity(e, HttpStatus.BAD_REQUEST);
+            }
+
+
     }
 
 }

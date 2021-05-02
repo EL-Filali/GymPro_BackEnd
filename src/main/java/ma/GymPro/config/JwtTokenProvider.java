@@ -24,7 +24,7 @@ public class JwtTokenProvider {
     public String generateToken(Authentication authentication){
         User user = (User)authentication.getPrincipal();
         Date now = new Date(System.currentTimeMillis());
-        Calendar calendar = Calendar.getInstance(); // gets a calendar using the default time zone and locale.
+        Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MINUTE, EXPIRATION_TIME);
         Date expiryDate = calendar.getTime();
 

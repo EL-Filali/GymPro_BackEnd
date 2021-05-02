@@ -1,13 +1,7 @@
 package ma.GymPro.services;
 
-import ma.GymPro.beans.Client;
-import ma.GymPro.beans.Coach;
-import ma.GymPro.beans.Employe;
-import ma.GymPro.beans.Responsable;
-import ma.GymPro.repositories.ClientRepository;
-import ma.GymPro.repositories.CoachRepository;
-import ma.GymPro.repositories.EmployeRepository;
-import ma.GymPro.repositories.ResponsableRepository;
+import ma.GymPro.beans.*;
+import ma.GymPro.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,7 +14,6 @@ import java.util.Optional;
 
 @Service
 public class AdminServices {
-
     @Autowired
     EmployeRepository employeRepository;
 
@@ -36,6 +29,8 @@ public class AdminServices {
 
     @Autowired
     CoachRepository coachRepository;
+    @Autowired
+    AchatRepository achatRepository;
 
     public Employe          getEmployeById  (Long id) throws Exception {
         Optional<Employe> opt =employeRepository.findById(id);
@@ -54,7 +49,7 @@ public class AdminServices {
     }
     public Page<Client>     getAllClients   (int pageNo, int pageSize, String sortBy){
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-        Page<Client> result  =clientRepository.findAll(paging);
+        Page<Client> result=clientRepository.findAll(paging);
         return result;
     }
     public Page<Employe>    getAllEmployes  (int pageNo, int pageSize, String sortBy){
@@ -77,5 +72,21 @@ public class AdminServices {
     public Coach addEmploye(Coach employe){
         employe.setPassword(bCryptPasswordEncoder.encode(employe.getProfil().getCin()+"@2021"));
         return coachRepository.save(employe);
+    }
+
+    public Page<Achat> getFactures(int pageNo, int pageSize, String sortBy){
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+        return achatRepository.findAll(paging);
+    }
+
+    public Achat getFacture(Long id) throws Exception {
+
+        Optional<Achat> achatOptional= achatRepository.findById(id);
+
+        if(!achatOptional.isPresent()){
+            throw new Exception("Aucune Facture avec cet ID");
+
+        }else
+            return achatOptional.get();
     }
 }

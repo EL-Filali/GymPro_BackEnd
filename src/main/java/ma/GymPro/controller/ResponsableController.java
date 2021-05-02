@@ -1,15 +1,13 @@
 package ma.GymPro.controller;
 
-import com.sun.mail.iap.Response;
+import ma.GymPro.beans.Abonnement;
 import ma.GymPro.beans.Client;
+import ma.GymPro.beans.Coupon;
 import ma.GymPro.services.ResponsableServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/responsable/")
@@ -27,5 +25,25 @@ public class ResponsableController {
         }
 
     }
+
+    @PostMapping("coupons")
+    public ResponseEntity<?>  createCoupons(@RequestBody Coupon coupon){
+        responsableServices.createCoupon(coupon);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping("coupons")
+    public  ResponseEntity<?>  getAllCoupons(int pageNo, int pageSize, String sortBy){
+        return new ResponseEntity(responsableServices.getAllCoupons(pageNo,pageSize,sortBy),HttpStatus.OK);
+    }
+    @PostMapping("/abonnement")
+    public ResponseEntity<?> createAbo(@RequestBody Abonnement abonnement){
+        responsableServices.createAbonnement(abonnement);
+        return new ResponseEntity(HttpStatus.OK);
+
+    }
+
+   /* @PostMapping("/factures")
+    public ResponseEntity<?>*/
 
 }

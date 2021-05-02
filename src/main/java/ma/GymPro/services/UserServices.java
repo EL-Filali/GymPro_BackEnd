@@ -13,6 +13,7 @@ import ma.GymPro.beans.Seance;
 import ma.GymPro.beans.User;
 import ma.GymPro.repositories.ProfilRepository;
 import ma.GymPro.repositories.SeanceRepository;
+import ma.GymPro.repositories.ServiceRepository;
 import ma.GymPro.repositories.UserRepository;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.slf4j.Logger;
@@ -31,13 +32,15 @@ import java.io.IOException;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServices {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServices.class);
     @Autowired
     private AmazonS3 amazonS3;
-
+    @Autowired
+    ServiceRepository serviceRepository;
     @Value("${aws.bucket}")
     private String bucketName;
     @Autowired
@@ -112,6 +115,19 @@ public class UserServices {
        Profil profil= user.getProfil();
        user.getProfil().setImgFileName(null);
        userRepository.save(user);
+   }
+
+   public List<ma.GymPro.beans.Service> getAllServices(){
+
+        return serviceRepository.findAll();
+   }
+   public ma.GymPro.beans.Service getService(Long id) throws Exception {
+       Optional<ma.GymPro.beans.Service> optional=serviceRepository.findById(id);
+       if(optional.isPresent())
+           return optional.get();
+       else
+           throw new Exception("Aucun Service Avec cet id");
+
    }
 
 }

@@ -4,62 +4,73 @@
  * Purpose: Defines the Class Achat
  ***********************************************************************/
 package ma.GymPro.beans;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import ma.GymPro.beans.Client;
+import net.minidev.json.annotate.JsonIgnore;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.*;
 
 @Entity
+@Getter @Setter @NoArgsConstructor
 public class Achat {
    @Id
    @GeneratedValue
    private Long id;
 
    private boolean isPaid;
-   @OneToOne
+   @OneToOne(cascade={CascadeType.PERSIST})
    private Facture facture;
+   @JsonIgnore
    @ManyToOne
+
    private Client client;
-   @OneToMany
+   @ManyToMany(mappedBy = "")
    private List<Service> services;
-
-   public Long getId() {
-      return id;
+   @PrePersist
+   protected  void prePersist(){
+      isPaid=false;
    }
+   public void payerAchat(Coupon coupon) throws Exception {
 
-   public void setId(Long id) {
-      this.id = id;
+      Facture facture=new Facture();
+      float somme = 0;
+      for (Service service:services) {
+         somme=+service.getPrix();
+         if(service instanceof Abonnement){
+            Abonnement abonnement= (Abonnement) service;
+            this.client.achatAbonnement(abonnement);
+         }
+      }
+      isPaid=true;
+      if(coupon.isExpired()&&coupon==null)
+         facture.setMontant(somme);
+      else
+         facture.setMontant(somme*coupon.getRemise());
+      facture.setDate(new Date());
+      this.facture=facture;
+
    }
+   public void payerAchat() throws Exception {
 
-   public boolean isPaid() {
-      return isPaid;
-   }
+      Facture facture=new Facture();
+      float somme = 0;
+      for (Service service:services) {
+         System.out.println("Somme="+somme+"service .prix="+service.getPrix());
+         somme=somme+service.getPrix();
+         if(service instanceof Abonnement){
+            Abonnement abonnement= (Abonnement) service;
+            this.client.achatAbonnement(abonnement);
+         }
+      }
 
-   public void setPaid(boolean paid) {
-      isPaid = paid;
-   }
+      isPaid=true;
+      facture.setMontant(somme);
+      facture.setDate(new Date());
+      this.facture=facture;
 
-   public Facture getFacture() {
-      return facture;
-   }
-
-   public void setFacture(Facture facture) {
-      this.facture = facture;
-   }
-
-   public Client getClient() {
-      return client;
-   }
-
-   public void setClient(Client client) {
-      this.client = client;
-   }
-
-   public List<Service> getServices() {
-      return services;
-   }
-
-   public void setServices(List<Service> services) {
-      this.services = services;
    }
 }

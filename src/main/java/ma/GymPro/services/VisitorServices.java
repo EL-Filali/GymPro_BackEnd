@@ -32,12 +32,17 @@ import java.util.List;
 public class VisitorServices {
     @Autowired
     UserRepository clientRepository;
+
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Autowired
     AuthenticationManager   authenticationManager;
+
     @Value("${security.token_prefix}")
     private String TOKEN_PREFIX;
+
+
     @Autowired
     JwtTokenProvider tokenProvider;
     @Autowired

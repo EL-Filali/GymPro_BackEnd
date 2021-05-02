@@ -1,6 +1,7 @@
 package ma.GymPro.repositories;
 
 import ma.GymPro.beans.Client;
+import ma.GymPro.beans.Suspendu;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -18,4 +19,9 @@ public interface ClientRepository extends JpaRepository<Client,Long> {
                      "    WHEN TRUE THEN FALSE" +
             "    ELSE TRUE END WHERE a.id=:id")
     public void disableClient(@Param("id") Long id);
+
+    Client findByEmail(String clientEmail);
+    @Modifying
+    @Query("update  Client  c set c.statusClient=:suspendu,c.suspendu=true  where  current_date >c.dateFinAbonnement ")
+    void VerificationAbonnement(Suspendu suspendu);
 }

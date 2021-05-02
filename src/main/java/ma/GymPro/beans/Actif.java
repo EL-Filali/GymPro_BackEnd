@@ -18,10 +18,12 @@ public class Actif extends StatusClient {
 
     @Override
     public void achatAbonnement(Client client, Abonnement abonnement) throws Exception {
-       Date date= client.getDateFinAbonnement();
-       int mounths =date.getMonth()+abonnement.getDuree();
-       date.setMonth(mounths);
-       client.setDateFinAbonnement(date);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(client.getDateFinAbonnement());
+        calendar.add(Calendar.MONTH, abonnement.getDuree());
+
+       client.setDateFinAbonnement(calendar.getTime());
     }
 
 
