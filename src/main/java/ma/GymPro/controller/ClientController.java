@@ -1,7 +1,6 @@
 package ma.GymPro.controller;
 
 import ma.GymPro.beans.Achat;
-import ma.GymPro.beans.Service;
 import ma.GymPro.services.ClientServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -11,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/client/")
@@ -88,6 +86,14 @@ public class ClientController {
             return new ResponseEntity( clientServices.creePDFFacture(id,principal.getName()),headers, HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity(e,HttpStatus.BAD_REQUEST);
+        }
+    }
+    @GetMapping("coupons")
+    ResponseEntity<?> checkCoupon(String reference){
+        try {
+            return new ResponseEntity<>(clientServices.checkCoupon(reference),HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
 }

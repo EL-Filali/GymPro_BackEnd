@@ -29,6 +29,8 @@ public class AdminServices {
 
     @Autowired
     CoachRepository coachRepository;
+
+
     @Autowired
     AchatRepository achatRepository;
 
@@ -89,4 +91,14 @@ public class AdminServices {
         }else
             return achatOptional.get();
     }
+
+    public Page<Coach> getCoachs(int pageNo, int pageSize, String sortBy){
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+        return coachRepository.findAll(paging);
+    }
+    public Page<Responsable> getResponsables(int pageNo, int pageSize, String sortBy){
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+        return responsableRepository.findAll(paging);
+    }
+
 }

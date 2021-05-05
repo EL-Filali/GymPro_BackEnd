@@ -1,35 +1,24 @@
 package ma.GymPro.services;
 
-import com.amazonaws.AmazonClientException;
-import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.GetObjectRequest;
-import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
-import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.amazonaws.util.IOUtils;
+import ma.GymPro.beans.Abonnement;
 import ma.GymPro.beans.Profil;
 import ma.GymPro.beans.Seance;
 import ma.GymPro.beans.User;
-import ma.GymPro.repositories.ProfilRepository;
-import ma.GymPro.repositories.SeanceRepository;
-import ma.GymPro.repositories.ServiceRepository;
-import ma.GymPro.repositories.UserRepository;
-import org.apache.tomcat.util.http.fileupload.FileUtils;
+import ma.GymPro.repositories.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -37,6 +26,9 @@ import java.util.Optional;
 @Service
 public class UserServices {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServices.class);
+
+    @Autowired
+    AbonnementRepository abonnementRepository;
     @Autowired
     private AmazonS3 amazonS3;
     @Autowired
@@ -129,6 +121,18 @@ public class UserServices {
            throw new Exception("Aucun Service Avec cet id");
 
    }
+    public List<Abonnement> GetAbonnements(){
+
+        return abonnementRepository.findAll();
+    }
+
+    public  Abonnement getAbonnement(Long id) throws Exception {
+        Optional<Abonnement> optionalAbonnement= abonnementRepository.findById(id);
+        if(optionalAbonnement.isPresent())
+            return optionalAbonnement.get();
+        else
+            throw new Exception("Aucun Service Avec cet id");
+    }
 
 }
 

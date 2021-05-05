@@ -72,6 +72,14 @@ public class ClientServices {
         ;*/
 
     }
+    public Achat getCart(String clientEmail) throws Exception {
+        Achat achat =achatRepository.findByIsPaidAndClient_Email(false,clientEmail);
+
+        if(achat==null)
+            throw new Exception("ce client na aucune carte ");
+        else
+            return achat;
+    }
     public void addToCart(Long id, String clientEmail){
         Achat achat=new Achat();
         achat.setClient(clientRepository.findByEmail(clientEmail));
@@ -106,22 +114,18 @@ public class ClientServices {
         return factureCreator.createInvoice(achat);
     }
 
-    public List<Abonnement> GetAbonnements(){
 
-        return abonnementRepository.findAll();
-    }
-
-    public  Abonnement getAbonnement(Long id) throws Exception {
-        Optional<Abonnement> optionalAbonnement= abonnementRepository.findById(id);
-        if(optionalAbonnement.isPresent())
-            return optionalAbonnement.get();
-        else
-            throw new Exception("Aucun Service Avec cet id");
-    }
 
     public byte[] creePDFFacture(Long id, String email) throws DocumentException, com.itextpdf.text.DocumentException, IOException {
         Achat achat=achatRepository.findByIsPaidAndIdAndClient_Email(true,id,email);
         return factureCreator.createInvoice(achat);
     }
-
+    public Coupon checkCoupon(String reference) throws Exception {
+        Coupon coupon=couponRepository.findByReference(reference);
+        if(coupon==null)
+            throw new Exception("n'exist pas !");
+        else if(coupon.isExpired()==true)
+                throw new Exception("Coupon expiré");
+            else return coupon;
+    }
 }

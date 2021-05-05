@@ -120,4 +120,24 @@ public class AdminController {
             return new ResponseEntity(e,HttpStatus.BAD_REQUEST);
         }
     }
+    @GetMapping("coachs")
+    ResponseEntity<?> getCoachs(@RequestParam(defaultValue = "0") Integer pageNo,
+                                @RequestParam(defaultValue = "10") Integer pageSize,
+                                @RequestParam(defaultValue = "id") String sortBy, Principal principal){
+        try{
+            return new ResponseEntity( adminServices.getCoachs(pageNo,pageSize,sortBy), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity(e,HttpStatus.BAD_REQUEST);
+        }
+    }
+    @GetMapping("responsables")
+    ResponseEntity<?> getCoach(@RequestParam(defaultValue = "0") Integer pageNo,
+                               @RequestParam(defaultValue = "10") Integer pageSize,
+                               @RequestParam(defaultValue = "id") String sortBy){
+        try{
+            return new ResponseEntity( adminServices.getResponsables(pageNo,pageSize,sortBy), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity(e,HttpStatus.BAD_REQUEST);
+        }
+    }
 }
