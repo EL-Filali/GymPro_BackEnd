@@ -1,14 +1,8 @@
 package ma.GymPro.services;
 
-import ma.GymPro.beans.Abonnement;
-import ma.GymPro.beans.Achat;
-import ma.GymPro.beans.Client;
-import ma.GymPro.beans.Coupon;
+import ma.GymPro.beans.*;
 import ma.GymPro.config.FactureCreator;
-import ma.GymPro.repositories.AbonnementRepository;
-import ma.GymPro.repositories.AchatRepository;
-import ma.GymPro.repositories.ClientRepository;
-import ma.GymPro.repositories.CouponRepository;
+import ma.GymPro.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,7 +16,8 @@ import java.util.Optional;
 
 @Service
 public class ResponsableServices {
-
+    @Autowired
+    SeanceRepository    seanceRepository;
     @Autowired
     ClientRepository clientRepository;
     @Autowired
@@ -78,5 +73,12 @@ public class ResponsableServices {
         }
 
 
+    }
+
+    public void saveSceance(Seance seance){
+        seanceRepository.save(seance);
+    }
+    public void deleteSceance(Long id){
+        seanceRepository.deleteById(id);
     }
 }

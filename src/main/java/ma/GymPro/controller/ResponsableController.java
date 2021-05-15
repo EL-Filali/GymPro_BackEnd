@@ -3,6 +3,7 @@ package ma.GymPro.controller;
 import ma.GymPro.beans.Abonnement;
 import ma.GymPro.beans.Client;
 import ma.GymPro.beans.Coupon;
+import ma.GymPro.beans.Seance;
 import ma.GymPro.services.ResponsableServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -43,7 +44,32 @@ public class ResponsableController {
 
     }
 
-   /* @PostMapping("/factures")
-    public ResponseEntity<?>*/
+   @PostMapping("/seances")
+    public ResponseEntity<?> createSceance(Seance seance){
+        try{
+            responsableServices.saveSceance(seance);
+            return  new ResponseEntity(HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity(e,HttpStatus.BAD_REQUEST);
+        }
+    }
+    @DeleteMapping("/seances/{id}")
+    public ResponseEntity<?> createSceance(@PathVariable Long id){
+        try{
+            responsableServices.deleteSceance(id);
+            return  new ResponseEntity(HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity(e,HttpStatus.BAD_REQUEST);
+        }
+    }
+    @PutMapping("/seances/{id}")
+    public ResponseEntity<?> updateSceance(@PathVariable Seance seance){
+        try{
+            responsableServices.saveSceance(seance);
+            return  new ResponseEntity(HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity(e,HttpStatus.BAD_REQUEST);
+        }
+    }
 
 }

@@ -19,4 +19,6 @@ public class GymProApplication {
 	BCryptPasswordEncoder bCryptPasswordEncoder(){
 		return new BCryptPasswordEncoder();
 	}
+
+
 }
