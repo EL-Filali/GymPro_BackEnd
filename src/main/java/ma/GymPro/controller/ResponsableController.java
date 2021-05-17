@@ -54,7 +54,7 @@ public class ResponsableController {
         }
     }
     @DeleteMapping("/seances/{id}")
-    public ResponseEntity<?> createSceance(@PathVariable Long id){
+    public ResponseEntity<?> deleteSceance(@PathVariable Long id){
         try{
             responsableServices.deleteSceance(id);
             return  new ResponseEntity(HttpStatus.OK);

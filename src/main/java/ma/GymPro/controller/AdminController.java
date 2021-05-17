@@ -131,7 +131,7 @@ public class AdminController {
         }
     }
     @GetMapping("responsables")
-    ResponseEntity<?> getCoach(@RequestParam(defaultValue = "0") Integer pageNo,
+    ResponseEntity<?> getResponsables(@RequestParam(defaultValue = "0") Integer pageNo,
                                @RequestParam(defaultValue = "10") Integer pageSize,
                                @RequestParam(defaultValue = "id") String sortBy){
         try{

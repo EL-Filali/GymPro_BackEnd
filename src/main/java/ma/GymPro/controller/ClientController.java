@@ -67,12 +67,11 @@ public class ClientController {
             return new ResponseEntity(e,HttpStatus.BAD_REQUEST);
         }
     }
-    @PostMapping("/cart/{id}")
-    ResponseEntity<?> createCarte(@PathVariable Long id, Principal principal){
-        System.out.println(id+"AZAZEAEAAAAAAAAAAAAAAAAAAa \n\n\n");
+    @GetMapping("/cart")
+    ResponseEntity<?> getCart(@PathVariable Long id, Principal principal){
         try{
-            clientServices.addToCart(id,principal.getName());
-            return new ResponseEntity( HttpStatus.OK);
+
+            return new ResponseEntity( clientServices.getCart(principal.getName()),HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity(e,HttpStatus.BAD_REQUEST);
         }
