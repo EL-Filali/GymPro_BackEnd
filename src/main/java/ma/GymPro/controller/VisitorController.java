@@ -82,4 +82,23 @@ public class VisitorController {
             return new ResponseEntity(e, HttpStatus.BAD_REQUEST);
         }
     }
+    @GetMapping("services")
+    public ResponseEntity getServices(){
+        try {
+
+            return new ResponseEntity(visitorServices.getAllServices(),HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(e, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("services/{id}")
+    public ResponseEntity getService(@PathVariable Long  id){
+        try {
+
+            return new ResponseEntity(visitorServices.getService(id),HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(e, HttpStatus.BAD_REQUEST);
+        }
+    }
 }

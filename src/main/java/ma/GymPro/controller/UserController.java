@@ -83,25 +83,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("services")
-    public ResponseEntity getServices(){
-        try {
 
-            return new ResponseEntity(userServices.getAllServices(),HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity(e, HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @GetMapping("services/{id}")
-    public ResponseEntity getService(@PathVariable Long  id){
-            try {
-
-                return new ResponseEntity(userServices.getService(id),HttpStatus.OK);
-            } catch (Exception e) {
-                return new ResponseEntity(e, HttpStatus.BAD_REQUEST);
-            }
-    }
 
 
 

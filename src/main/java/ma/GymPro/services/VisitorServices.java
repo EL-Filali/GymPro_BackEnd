@@ -7,6 +7,7 @@ import ma.GymPro.beans.User;
 import ma.GymPro.config.JwtTokenProvider;
 import ma.GymPro.repositories.AbonnementRepository;
 import ma.GymPro.repositories.CoursRepository;
+import ma.GymPro.repositories.ServiceRepository;
 import ma.GymPro.repositories.UserRepository;
 import ma.GymPro.responses.ConnexionRequest;
 import ma.GymPro.responses.ConnexionResponse;
@@ -24,6 +25,8 @@ import java.util.Optional;
 
 @Service
 public class VisitorServices {
+    @Autowired
+    ServiceRepository serviceRepository;
     @Autowired
     AbonnementRepository abonnementRepository;
     @Autowired
@@ -85,5 +88,17 @@ public class VisitorServices {
             return optionalAbonnement.get();
         else
             throw new Exception("Aucun Service Avec cet id");
+    }
+    public List<ma.GymPro.beans.Service> getAllServices(){
+
+        return serviceRepository.findAll();
+    }
+    public ma.GymPro.beans.Service getService(Long id) throws Exception {
+        Optional<ma.GymPro.beans.Service> optional=serviceRepository.findById(id);
+        if(optional.isPresent())
+            return optional.get();
+        else
+            throw new Exception("Aucun Service Avec cet id");
+
     }
 }

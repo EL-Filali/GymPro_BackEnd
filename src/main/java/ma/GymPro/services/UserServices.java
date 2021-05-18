@@ -6,7 +6,10 @@ import com.amazonaws.util.IOUtils;
 import ma.GymPro.beans.Profil;
 import ma.GymPro.beans.Seance;
 import ma.GymPro.beans.User;
-import ma.GymPro.repositories.*;
+import ma.GymPro.repositories.ProfilRepository;
+import ma.GymPro.repositories.SeanceRepository;
+import ma.GymPro.repositories.ServiceRepository;
+import ma.GymPro.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +23,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServices {
@@ -107,18 +109,7 @@ public class UserServices {
        userRepository.save(user);
    }
 
-   public List<ma.GymPro.beans.Service> getAllServices(){
 
-        return serviceRepository.findAll();
-   }
-   public ma.GymPro.beans.Service getService(Long id) throws Exception {
-       Optional<ma.GymPro.beans.Service> optional=serviceRepository.findById(id);
-       if(optional.isPresent())
-           return optional.get();
-       else
-           throw new Exception("Aucun Service Avec cet id");
-
-   }
 
 
 }
