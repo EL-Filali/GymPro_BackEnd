@@ -3,7 +3,6 @@ package ma.GymPro.services;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.util.IOUtils;
-import ma.GymPro.beans.Abonnement;
 import ma.GymPro.beans.Profil;
 import ma.GymPro.beans.Seance;
 import ma.GymPro.beans.User;
@@ -27,8 +26,7 @@ import java.util.Optional;
 public class UserServices {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServices.class);
 
-    @Autowired
-    AbonnementRepository abonnementRepository;
+
     @Autowired
     private AmazonS3 amazonS3;
     @Autowired
@@ -121,18 +119,7 @@ public class UserServices {
            throw new Exception("Aucun Service Avec cet id");
 
    }
-    public List<Abonnement> GetAbonnements(){
 
-        return abonnementRepository.findAll();
-    }
-
-    public  Abonnement getAbonnement(Long id) throws Exception {
-        Optional<Abonnement> optionalAbonnement= abonnementRepository.findById(id);
-        if(optionalAbonnement.isPresent())
-            return optionalAbonnement.get();
-        else
-            throw new Exception("Aucun Service Avec cet id");
-    }
 
 }
 

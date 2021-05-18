@@ -103,25 +103,7 @@ public class UserController {
             }
     }
 
-    @GetMapping("/abonnements")
-    public ResponseEntity<?> getAbonnement(){
-        try {
 
-            return new ResponseEntity(userServices.GetAbonnements(),HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity(e, HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @GetMapping("/abonnements/{id}")
-    public ResponseEntity<?> getAbonnement(Long id){
-        try {
-
-            return new ResponseEntity(userServices.getAbonnement(id),HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity(e, HttpStatus.BAD_REQUEST);
-        }
-    }
 
 
 }

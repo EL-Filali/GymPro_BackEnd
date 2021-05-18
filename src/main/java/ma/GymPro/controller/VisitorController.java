@@ -63,4 +63,23 @@ public class VisitorController {
         a.setPassword(bCryptPasswordEncoder.encode("A1234"));
         adminRepository.save(a);
     }
+    @GetMapping("/abonnements")
+    public ResponseEntity<?> getAbonnement(){
+        try {
+
+            return new ResponseEntity(visitorServices.GetAbonnements(),HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(e, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/abonnements/{id}")
+    public ResponseEntity<?> getAbonnement(Long id){
+        try {
+
+            return new ResponseEntity(visitorServices.getAbonnement(id),HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(e, HttpStatus.BAD_REQUEST);
+        }
+    }
 }

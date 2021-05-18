@@ -1,35 +1,31 @@
 package ma.GymPro.services;
 
-import antlr.BaseAST;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import ma.GymPro.beans.Abonnement;
 import ma.GymPro.beans.Client;
 import ma.GymPro.beans.Cours;
-import ma.GymPro.beans.Suspendu;
 import ma.GymPro.beans.User;
 import ma.GymPro.config.JwtTokenProvider;
+import ma.GymPro.repositories.AbonnementRepository;
 import ma.GymPro.repositories.CoursRepository;
 import ma.GymPro.repositories.UserRepository;
 import ma.GymPro.responses.ConnexionRequest;
 import ma.GymPro.responses.ConnexionResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VisitorServices {
+    @Autowired
+    AbonnementRepository abonnementRepository;
     @Autowired
     UserRepository clientRepository;
 
@@ -78,5 +74,16 @@ public class VisitorServices {
     public List<Cours> getAllCourse(){
         return  coursRepository.findAll();
     }
+    public List<Abonnement> GetAbonnements(){
 
+        return abonnementRepository.findAll();
+    }
+
+    public  Abonnement getAbonnement(Long id) throws Exception {
+        Optional<Abonnement> optionalAbonnement= abonnementRepository.findById(id);
+        if(optionalAbonnement.isPresent())
+            return optionalAbonnement.get();
+        else
+            throw new Exception("Aucun Service Avec cet id");
+    }
 }
