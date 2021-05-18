@@ -7,13 +7,12 @@ package ma.GymPro.beans;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.util.*;
 @Entity
 public class Cours {
    @Id
    @GeneratedValue
    private int id;
-   private int nomCours;
+   private String nomCours;
 
    public int getId() {
       return id;
@@ -23,11 +22,11 @@ public class Cours {
       this.id = id;
    }
 
-   public int getNomCours() {
+   public String getNomCours() {
       return nomCours;
    }
 
-   public void setNomCours(int nomCours) {
+   public void setNomCours(String nomCours) {
       this.nomCours = nomCours;
    }
 }
