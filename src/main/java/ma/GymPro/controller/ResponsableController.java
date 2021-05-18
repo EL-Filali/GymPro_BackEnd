@@ -1,9 +1,6 @@
 package ma.GymPro.controller;
 
-import ma.GymPro.beans.Abonnement;
-import ma.GymPro.beans.Client;
-import ma.GymPro.beans.Coupon;
-import ma.GymPro.beans.Seance;
+import ma.GymPro.beans.*;
 import ma.GymPro.services.ResponsableServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -66,6 +63,16 @@ public class ResponsableController {
     public ResponseEntity<?> updateSceance(@PathVariable Seance seance){
         try{
             responsableServices.saveSceance(seance);
+            return  new ResponseEntity(HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity(e,HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/cours")
+    public ResponseEntity<?> createCours(@RequestBody Cours cours){
+        try{
+            responsableServices.saveCours(cours);
             return  new ResponseEntity(HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity(e,HttpStatus.BAD_REQUEST);

@@ -19,6 +19,8 @@ public class ResponsableServices {
     @Autowired
     SeanceRepository    seanceRepository;
     @Autowired
+    CoursRepository    coursRepository;
+    @Autowired
     ClientRepository clientRepository;
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -80,5 +82,8 @@ public class ResponsableServices {
     }
     public void deleteSceance(Long id){
         seanceRepository.deleteById(id);
+    }
+    public void saveCours(Cours cours){
+        coursRepository.save(cours);
     }
 }
