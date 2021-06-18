@@ -1,4 +1,4 @@
-package ma.GymPro.responses;
+package ma.GymPro.dto;
 
 
 

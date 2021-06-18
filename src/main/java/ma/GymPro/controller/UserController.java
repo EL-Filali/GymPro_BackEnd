@@ -2,7 +2,7 @@ package ma.GymPro.controller;
 
 
 import ma.GymPro.beans.Profil;
-import ma.GymPro.responses.ConnexionRequest;
+import ma.GymPro.dto.ConnexionRequest;
 import ma.GymPro.services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

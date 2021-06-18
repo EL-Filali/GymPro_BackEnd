@@ -2,11 +2,11 @@ package ma.GymPro.controller;
 
 import ma.GymPro.beans.Admin;
 import ma.GymPro.beans.Client;
-import ma.GymPro.beans.Cours;
 import ma.GymPro.beans.Profil;
+import ma.GymPro.dto.ConnexionRequest;
+import ma.GymPro.dto.ConnexionResponse;
+import ma.GymPro.dto.CoursDTOResponse;
 import ma.GymPro.repositories.AdminRepository;
-import ma.GymPro.responses.ConnexionRequest;
-import ma.GymPro.responses.ConnexionResponse;
 import ma.GymPro.services.VisitorServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -49,7 +49,7 @@ public class VisitorController {
     @GetMapping("cours")
     public ResponseEntity<?> getAllCours(){
         try{
-            List<Cours> coursList=  visitorServices.getAllCourse();
+            List<CoursDTOResponse> coursList=  visitorServices.getAllCourse();
             return new ResponseEntity(coursList,HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity(e,HttpStatus.BAD_REQUEST);
@@ -63,6 +63,8 @@ public class VisitorController {
         a.setPassword(bCryptPasswordEncoder.encode("A1234"));
         adminRepository.save(a);
     }
+
+
     @GetMapping("/abonnements")
     public ResponseEntity<?> getAbonnement(){
         try {

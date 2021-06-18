@@ -22,4 +22,5 @@ public interface UserRepository extends JpaRepository<User,Long> {
     @Modifying
     @Query("update User  u set u.profil=:p where u.email=:e")
     public Integer updateProfil(@Param(value = "p")Profil p,@Param(value = "e") String e);
+
 }

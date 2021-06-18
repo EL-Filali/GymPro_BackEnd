@@ -101,6 +101,7 @@ public class UserServices {
        byte[] byteArray = IOUtils.toByteArray(s3object.getObjectContent());
     return byteArray;
    }
+
    public void deleteImg(String name){
        User user = userRepository.findByEmail(name);
        amazonS3.deleteObject(bucketName,user.getProfil().getImgFileName());

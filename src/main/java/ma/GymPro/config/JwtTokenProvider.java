@@ -5,9 +5,8 @@ import ma.GymPro.beans.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+
 import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
-import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -48,11 +47,10 @@ public class JwtTokenProvider {
 
     //Validate the token
     public boolean validateToken(String token, HttpServletRequest httpServletRequest){
-        try{
+
              Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token);
             return true;
-        }catch (SignatureException ex){
-            System.out.println("Invalid JWT Signature");
+        /*
             httpServletRequest.setAttribute("valid",ex.getMessage());
         }catch (MalformedJwtException ex){
             System.out.println("Invalid JWT Token");
@@ -64,7 +62,7 @@ public class JwtTokenProvider {
         }catch (IllegalArgumentException ex){
             System.out.println("JWT claims string is empty");
         }
-        return false;
+        return false;*/
     }
 
 
@@ -73,8 +71,6 @@ public class JwtTokenProvider {
     public Long getUserIdFromJWT(String token){
         Claims claims = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token).getBody();
         String id = (String)claims.get("id");
-        Principal principal;
-
         return Long.parseLong(id);
     }
 }

@@ -1,7 +1,10 @@
 package ma.GymPro.services;
 
-import ma.GymPro.beans.*;
+import ma.GymPro.beans.Achat;
+import ma.GymPro.beans.Client;
+import ma.GymPro.beans.Coupon;
 import ma.GymPro.config.FactureCreator;
+import ma.GymPro.dto.CartDTO;
 import ma.GymPro.repositories.*;
 import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +15,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,8 +50,10 @@ public class ClientServices {
     }
 
 
-    public void createCart(Achat achat, String clientEmail){
+    public void createCart(CartDTO panier, String clientEmail){
         //List<ma.GymPro.beans.Service> services=achat.getServices();
+        Achat achat=new Achat(panier);
+
         Client client=clientRepository.findByEmail(clientEmail);
         List<Achat> achats=client.getAchat();
         achats.add(achat);
@@ -72,22 +76,17 @@ public class ClientServices {
         ;*/
 
     }
-    public Achat getCart(String clientEmail) throws Exception {
+    public CartDTO getCart(String clientEmail) throws Exception {
         Achat achat =achatRepository.findByIsPaidAndClient_Email(false,clientEmail);
 
         if(achat==null)
-            throw new Exception("ce client na aucune carte ");
+            throw new Exception("ce client n a aucun panier ");
         else
-            return achat;
+            return new CartDTO(achat);
     }
-    public void addToCart(Long id, String clientEmail){
-        Achat achat=new Achat();
-        achat.setClient(clientRepository.findByEmail(clientEmail));
-        achatRepository.save(achat);
-        achat.setServices(new ArrayList<>());
-        achat.getServices().add(serviceRepository.findById(id).get());
-        achatRepository.save(achat);
-
+    public void deleteFromCart(Long id, String clientEmail){
+        Achat achat =achatRepository.findByIsPaidAndClient_Email(false,clientEmail);
+                achat.getServices().removeIf(item -> item.getId().equals(id));
     }
 
     public byte[] reglerAchat(Long idCoupon,String clientEmail) throws Exception {

@@ -1,7 +1,5 @@
 
 package ma.GymPro.beans;
-import ma.GymPro.beans.Conversation;
-import ma.GymPro.beans.NfcTag;
 
 import javax.persistence.*;
 import java.util.*;

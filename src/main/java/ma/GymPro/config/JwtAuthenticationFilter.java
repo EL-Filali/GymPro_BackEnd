@@ -1,10 +1,16 @@
 package ma.GymPro.config;
 
 
+import com.google.gson.Gson;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import ma.GymPro.beans.User;
 import ma.GymPro.services.CustomUserDetailsServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -16,7 +22,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
+import java.util.HashMap;
 
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -37,9 +43,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         try {
 
+
             String jwt = getJWTFromRequest(httpServletRequest);
 
-            if(StringUtils.hasText(jwt)&& tokenProvider.validateToken(jwt,httpServletRequest)){
+            if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt, httpServletRequest)) {
                 Long userId = tokenProvider.getUserIdFromJWT(jwt);
                 User userDetails = customUserDetailsService.loadUserById(userId);
 
@@ -51,9 +58,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             }
 
-        }catch (Exception ex){
-            logger.error("Could not set user authentication in security context", ex);
+
+        }catch (ExpiredJwtException ex){
+            setErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, httpServletResponse," JWT token Expiré");
+        }catch (UnsupportedJwtException ex){
+            setErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, httpServletResponse," JWT token non supporté");
+        }catch (IllegalArgumentException ex){
+            setErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, httpServletResponse,"JWT claims string est vide");
+        }catch (SignatureException ex){
+            setErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, httpServletResponse,"JWT pas bien signé");
+        } catch (MalformedJwtException ex) {
+            setErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, httpServletResponse,"JWT token pas bien formé");
         }
+
 
 
         filterChain.doFilter(httpServletRequest, httpServletResponse);
@@ -70,5 +87,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         return null;
+    }
+
+    public void setErrorResponse(HttpStatus status, HttpServletResponse response,String message){
+        response.setStatus(status.value());
+        response.setContentType("application/json");
+        HashMap<String,String> errors=new HashMap<String,String>();
+        errors.put("message",message);
+        try {
+            String json =new Gson().toJson(errors);
+            response.getWriter().write(json);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

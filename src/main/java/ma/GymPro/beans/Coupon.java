@@ -20,7 +20,7 @@ public class Coupon {
    private float remise;
    private String reference;
    private boolean expired;
-
+   private Date dateExpiration;
 
 
 

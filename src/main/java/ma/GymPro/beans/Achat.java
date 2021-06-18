@@ -4,15 +4,17 @@
  * Purpose: Defines the Class Achat
  ***********************************************************************/
 package ma.GymPro.beans;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ma.GymPro.beans.Client;
+import ma.GymPro.dto.AchatDetailsDTO;
+import ma.GymPro.dto.CartDTO;
 import net.minidev.json.annotate.JsonIgnore;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter @Setter @NoArgsConstructor
@@ -30,7 +32,15 @@ public class Achat {
    private Client client;
    @ManyToMany(mappedBy = "")
    private List<Service> services;
-   @PrePersist
+
+    public Achat(CartDTO panier) {
+       for (AchatDetailsDTO detailsDTO:panier.getAchatDetails()) {
+          for(int i=1;i<detailsDTO.getQte();i++)
+             services.add(detailsDTO.getService());
+       }
+    }
+
+    @PrePersist
    protected  void prePersist(){
       isPaid=false;
    }

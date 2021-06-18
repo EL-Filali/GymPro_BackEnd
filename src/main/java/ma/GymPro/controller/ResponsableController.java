@@ -1,6 +1,8 @@
 package ma.GymPro.controller;
 
 import ma.GymPro.beans.*;
+import ma.GymPro.dto.CoursDTORequest;
+import ma.GymPro.dto.ServiceDTORequest;
 import ma.GymPro.services.ResponsableServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,8 +37,8 @@ public class ResponsableController {
         return new ResponseEntity(responsableServices.getAllCoupons(pageNo,pageSize,sortBy),HttpStatus.OK);
     }
     @PostMapping("/abonnement")
-    public ResponseEntity<?> createAbo(@RequestBody Abonnement abonnement){
-        responsableServices.createAbonnement(abonnement);
+    public ResponseEntity<?> createAbo(@RequestBody ServiceDTORequest serviceDTORequest){
+        responsableServices.createAbonnement(serviceDTORequest);
         return new ResponseEntity(HttpStatus.OK);
 
     }
@@ -70,9 +72,9 @@ public class ResponsableController {
     }
 
     @PostMapping("/cours")
-    public ResponseEntity<?> createCours(@RequestBody Cours cours){
+    public ResponseEntity<?> createCours(@RequestBody CoursDTORequest coursDTORequest){
         try{
-            responsableServices.saveCours(cours);
+            responsableServices.saveCours(coursDTORequest);
             return  new ResponseEntity(HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity(e,HttpStatus.BAD_REQUEST);

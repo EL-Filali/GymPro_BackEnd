@@ -1,8 +1,9 @@
 package ma.GymPro.controller;
 
-import ma.GymPro.beans.Achat;
+import ma.GymPro.dto.CartDTO;
 import ma.GymPro.services.ClientServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,7 +17,8 @@ import java.security.Principal;
 public class ClientController {
     @Autowired
     ClientServices  clientServices;
-
+    @Value("${aws.bucket.service}")
+    private String bucketName;
     @GetMapping("/factures")
     ResponseEntity<?> getAllFactures(@RequestParam(defaultValue = "0") Integer pageNo,
                                      @RequestParam(defaultValue = "10") Integer pageSize,
@@ -38,9 +40,8 @@ public class ClientController {
     }
 
     @PostMapping("/cart")
-    ResponseEntity<?> createCarte(@RequestBody Achat achat, Principal principal){
+    ResponseEntity<?> createCarte(@RequestBody CartDTO achat, Principal principal){
         try{
-            System.out.println(achat.getServices().get(0).getId());
             clientServices.createCart(achat,principal.getName());
             return new ResponseEntity( HttpStatus.OK);
         }catch (Exception e){
@@ -68,7 +69,7 @@ public class ClientController {
         }
     }
     @GetMapping("/cart")
-    ResponseEntity<?> getCart(@PathVariable Long id, Principal principal){
+    ResponseEntity<?> getCart(Principal principal){
         try{
 
             return new ResponseEntity( clientServices.getCart(principal.getName()),HttpStatus.OK);
@@ -94,5 +95,10 @@ public class ClientController {
         }catch (Exception e){
             return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping("/config/paypal")
+    public String getClientPaypalId(){
+        return "AQywOLNACD40AwxTZckMChsnk6QsKRbZsbSfXmtG97xGTNzoAX7Sl5b8VKpGzdprUxupq9TscMkx66Aw";
     }
 }

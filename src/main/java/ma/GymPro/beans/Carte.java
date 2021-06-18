@@ -7,9 +7,8 @@ package ma.GymPro.beans;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.util.*;
 @Entity
-public class NfcTag {
+public class Carte {
    private String tag;
    @Id
    @GeneratedValue
