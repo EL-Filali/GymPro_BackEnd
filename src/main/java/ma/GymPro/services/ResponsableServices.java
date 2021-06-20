@@ -4,7 +4,6 @@ import com.amazonaws.services.s3.AmazonS3;
 import ma.GymPro.beans.*;
 import ma.GymPro.config.FactureCreator;
 import ma.GymPro.dto.CoursDTORequest;
-import ma.GymPro.dto.ServiceDTORequest;
 import ma.GymPro.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -53,13 +51,16 @@ public class ResponsableServices {
         client.setPassword(bCryptPasswordEncoder.encode(client.getProfil().getCin()+"@2021"));
         return clientRepository.save(client);
     }
-    public void createAbonnement( ma.GymPro.beans.Service service,  MultipartFile file){
+    public String  saveImgAbonnement(   MultipartFile file){
         File file1=convertMultiPartFileToFile(file);
-        String path = service.getId() + "_" + file1.getName() + "_" + new Date().toString();
-        service.setImgPath(path);
-        amazonS3.putObject(bucketName, service.getImgPath(),file1);
+        String path = "_" + file1.getName() + "_" + new Date().toString();
+        amazonS3.putObject(bucketName, path,file1);
+        return path;
+    }
+    public void  createAbonnement(   ma.GymPro.beans.Service service){
         abonnementRepository.save((Abonnement) service);
     }
+
 
     public void createCoupon(Coupon coupon){
         couponRepository.save(coupon);

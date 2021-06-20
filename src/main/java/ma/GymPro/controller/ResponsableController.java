@@ -43,9 +43,14 @@ public class ResponsableController {
     }
 
     @RequestMapping(value = "/abonnement", method = RequestMethod.POST)
-    public ResponseEntity<?> createAbo(@RequestParam("service") Service service, @RequestParam("img") MultipartFile file){
-        responsableServices.createAbonnement(service,file);
+    public ResponseEntity<?> createAbo( Service service){
+        responsableServices.createAbonnement(service);
         return new ResponseEntity(HttpStatus.OK);
+
+    }
+    @RequestMapping(value = "/abonnement/image", method = RequestMethod.POST)
+    public ResponseEntity<?> createAbo(@RequestParam("img") MultipartFile file){
+        return new ResponseEntity(responsableServices.saveImgAbonnement(file),HttpStatus.OK);
 
     }
 
