@@ -23,6 +23,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServices {
@@ -110,6 +111,15 @@ public class UserServices {
        userRepository.save(user);
    }
 
+
+   public Seance getSceance(Long id ) throws Exception {
+       Optional<Seance> optional= seanceRepository.findById(id);
+       if(optional.isPresent())
+           return optional.get();
+       else
+           throw new Exception("Sceance n'existe pas");
+   }
+    
 
 
 

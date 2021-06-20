@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -40,6 +41,8 @@ public class ResponsableServices {
     @Autowired
     AchatRepository achatRepository;
     @Autowired
+    CoachRepository coachRepository;
+    @Autowired
     FactureCreator factureCreator;
     @Value("${aws.bucket.service}")
     private String bucketName;
@@ -50,12 +53,12 @@ public class ResponsableServices {
         client.setPassword(bCryptPasswordEncoder.encode(client.getProfil().getCin()+"@2021"));
         return clientRepository.save(client);
     }
-    public void createAbonnement(ServiceDTORequest serviceDTORequest){
-        File file1=convertMultiPartFileToFile(serviceDTORequest.getImg());
-        String path = serviceDTORequest.getService().getId() + "_" + file1.getName() + "_" + new Date().toString();
-        serviceDTORequest.getService().setImgPath(path);
-        amazonS3.putObject(bucketName, serviceDTORequest.getService().getImgPath(),file1);
-        abonnementRepository.save((Abonnement) serviceDTORequest.getService());
+    public void createAbonnement( ma.GymPro.beans.Service service,  MultipartFile file){
+        File file1=convertMultiPartFileToFile(file);
+        String path = service.getId() + "_" + file1.getName() + "_" + new Date().toString();
+        service.setImgPath(path);
+        amazonS3.putObject(bucketName, service.getImgPath(),file1);
+        abonnementRepository.save((Abonnement) service);
     }
 
     public void createCoupon(Coupon coupon){
@@ -93,7 +96,7 @@ public class ResponsableServices {
 
     }
 
-    public void saveSceance(Seance seance){
+    public void saveSceance(Seance seance )  {
         seanceRepository.save(seance);
     }
     public void deleteSceance(Long id){
@@ -115,5 +118,9 @@ public class ResponsableServices {
 
         }
         return file;
+    }
+    public Page<Coach> getCoachs(int pageNo, int pageSize, String sortBy){
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+        return coachRepository.findAll(paging);
     }
 }

@@ -15,8 +15,11 @@ public class ServiceDTOResponse {
 
 
     public ServiceDTOResponse(Service service, AmazonS3 s3, String bucketName) throws IOException {
-        S3Object s3object = s3.getObject(bucketName,  service.getImgPath());
-        imgBytes = IOUtils.toByteArray(s3object.getObjectContent());
+        if (service.getImgPath() != null){
+            S3Object s3object = s3.getObject(bucketName, service.getImgPath());
+        if (s3object != null)
+            imgBytes = IOUtils.toByteArray(s3object.getObjectContent());
+    }
         this.service =service;
     }
 

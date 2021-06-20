@@ -17,8 +17,11 @@ public class CoursDTOResponse {
 
 
     public CoursDTOResponse(Cours cours, AmazonS3 s3, String bucketName) throws IOException {
-        S3Object s3object = s3.getObject(bucketName,  cours.getImgPath());
-        imgBytes = IOUtils.toByteArray(s3object.getObjectContent());
+        if (cours.getImgPath() != null){
+            S3Object s3object = s3.getObject(bucketName, cours.getImgPath());
+            if (s3object != null)
+                imgBytes = IOUtils.toByteArray(s3object.getObjectContent());
+        }
         this.cours =cours;
     }
 }
