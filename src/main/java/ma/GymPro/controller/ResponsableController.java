@@ -1,9 +1,6 @@
 package ma.GymPro.controller;
 
-import ma.GymPro.beans.Client;
-import ma.GymPro.beans.Coupon;
-import ma.GymPro.beans.Seance;
-import ma.GymPro.beans.Service;
+import ma.GymPro.beans.*;
 import ma.GymPro.dto.CoursDTORequest;
 import ma.GymPro.services.ResponsableServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,19 +40,19 @@ public class ResponsableController {
     }
 
     @RequestMapping(value = "/abonnement", method = RequestMethod.POST)
-    public ResponseEntity<?> createAbo( Service service){
+    public ResponseEntity<?> createAbo(@RequestBody Abonnement service){
         responsableServices.createAbonnement(service);
         return new ResponseEntity(HttpStatus.OK);
 
     }
     @RequestMapping(value = "/abonnement/image", method = RequestMethod.POST)
-    public ResponseEntity<?> createAbo(@RequestParam("img") MultipartFile file){
+    public ResponseEntity<?> createAbo(@RequestParam("file") MultipartFile file){
         return new ResponseEntity(responsableServices.saveImgAbonnement(file),HttpStatus.OK);
 
     }
 
    @PostMapping("/seances")
-    public ResponseEntity<?> createSceance(Seance seance){
+    public ResponseEntity<?> createSceance(@RequestBody Seance seance){
         try{
             responsableServices.saveSceance(seance);
             return  new ResponseEntity(HttpStatus.OK);

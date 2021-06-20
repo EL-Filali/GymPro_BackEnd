@@ -93,8 +93,6 @@ public class ResponsableServices {
             achatRepository.save(achat);
             return factureCreator.createInvoice(achat);
         }
-
-
     }
 
     public void saveSceance(Seance seance )  {
@@ -124,4 +122,6 @@ public class ResponsableServices {
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
         return coachRepository.findAll(paging);
     }
+
+
 }

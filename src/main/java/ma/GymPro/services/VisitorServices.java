@@ -119,9 +119,13 @@ public class VisitorServices {
         else
             throw new Exception("Aucun Service Avec cet id");
     }
-    public List<ma.GymPro.beans.Service> getAllServices(){
-
-        return serviceRepository.findAll();
+    public List<ServiceDTOResponse> getAllServices() throws IOException {
+        List<ServiceDTOResponse> serviceDTOS=new ArrayList<>();
+        for(Abonnement abonnement:abonnementRepository.findAll()){
+            ServiceDTOResponse serviceDTO =new ServiceDTOResponse(abonnement, amazonS3, bucketName);
+            serviceDTOS.add(serviceDTO);
+        }
+        return serviceDTOS;
     }
     public ServiceDTOResponse getService(Long id) throws Exception {
         Optional<ma.GymPro.beans.Service> optional=serviceRepository.findById(id);
