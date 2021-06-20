@@ -42,7 +42,7 @@ public class ResponsableController {
         return new ResponseEntity(responsableServices.getAllCoupons(pageNo,pageSize,sortBy),HttpStatus.OK);
     }
 
-    @PostMapping("/abonnement")
+    @RequestMapping(value = "/abonnement", method = RequestMethod.POST)
     public ResponseEntity<?> createAbo(@RequestParam("service") Service service, @RequestParam("img") MultipartFile file){
         responsableServices.createAbonnement(service,file);
         return new ResponseEntity(HttpStatus.OK);
