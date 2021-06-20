@@ -4,7 +4,6 @@
  * Purpose: Defines the Class Service
  ***********************************************************************/
 package ma.GymPro.beans;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Getter;
@@ -26,7 +25,6 @@ public abstract class Service {
    protected Long id;
    protected float prix;
    protected String description;
-   @JsonIgnore
    protected String imgPath ;
 
 
