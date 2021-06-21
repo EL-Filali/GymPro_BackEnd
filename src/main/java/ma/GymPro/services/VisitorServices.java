@@ -1,19 +1,13 @@
 package ma.GymPro.services;
 
 import com.amazonaws.services.s3.AmazonS3;
-import ma.GymPro.beans.Abonnement;
-import ma.GymPro.beans.Client;
-import ma.GymPro.beans.Cours;
-import ma.GymPro.beans.User;
+import ma.GymPro.beans.*;
 import ma.GymPro.config.JwtTokenProvider;
 import ma.GymPro.dto.ConnexionRequest;
 import ma.GymPro.dto.ConnexionResponse;
 import ma.GymPro.dto.CoursDTOResponse;
 import ma.GymPro.dto.ServiceDTOResponse;
-import ma.GymPro.repositories.AbonnementRepository;
-import ma.GymPro.repositories.CoursRepository;
-import ma.GymPro.repositories.ServiceRepository;
-import ma.GymPro.repositories.UserRepository;
+import ma.GymPro.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -61,8 +55,12 @@ public class VisitorServices {
 
     @Autowired
     CoursRepository coursRepository;
+    @Autowired
+    SeanceRepository seanceRepository;
 
-
+    public List<Seance> getAllSeance(){
+        return seanceRepository.findAll();
+    }
 
     public ConnexionResponse  connexion(ConnexionRequest request){
         Authentication authentication = authenticationManager.authenticate(

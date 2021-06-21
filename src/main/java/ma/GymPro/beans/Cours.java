@@ -15,10 +15,9 @@ import javax.persistence.Id;
 public class Cours {
    @Id
    @GeneratedValue
-   private int id;
+   private Long  id;
    private String nomCours;
    private String description;
-   @JsonIgnore
    private String imgPath;
 
 }

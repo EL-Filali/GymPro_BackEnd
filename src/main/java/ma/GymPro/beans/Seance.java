@@ -9,7 +9,7 @@ public class Seance {
    private int id;
    private int heureDebut;
    private int heureFin;
-   @ManyToOne(cascade = {CascadeType.PERSIST})
+   @ManyToOne
    private Cours cours;
    @ManyToOne
    private Jour jour;

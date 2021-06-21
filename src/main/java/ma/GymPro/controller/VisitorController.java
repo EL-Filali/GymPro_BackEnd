@@ -103,4 +103,15 @@ public class VisitorController {
             return new ResponseEntity(e, HttpStatus.BAD_REQUEST);
         }
     }
+
+
+    @GetMapping("seances")
+    public ResponseEntity<?> getAllSeances(){
+        try{
+
+            return new ResponseEntity(visitorServices.getAllSeance(),HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity(e,HttpStatus.BAD_REQUEST);
+        }
+    }
 }

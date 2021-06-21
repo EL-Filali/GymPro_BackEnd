@@ -26,6 +26,8 @@ public class ResponsableServices {
     @Autowired
     SeanceRepository    seanceRepository;
     @Autowired
+    JourRepository    jourRepository;
+    @Autowired
     CoursRepository    coursRepository;
     @Autowired
     ClientRepository clientRepository;
@@ -95,6 +97,16 @@ public class ResponsableServices {
     }
 
     public void saveSceance(Seance seance )  {
+        Cours cours = coursRepository.findById(seance.getCours().getId()).get();
+        Coach coach = coachRepository.findById(seance.getCoach().getId()).get();
+        Jour jour = jourRepository.findById(seance.getJour().getId()).get();
+        seance.setJour(null);
+        seance.setCoach(null);
+        seance.setCours(null);
+        seanceRepository.save(seance);
+        seance.setCoach(coach);
+        seance.setCours(cours);
+        seance.setJour(jour);
         seanceRepository.save(seance);
     }
     public void deleteSceance(Long id){
