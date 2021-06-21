@@ -1,7 +1,6 @@
 package ma.GymPro.controller;
 
 import ma.GymPro.beans.Coupon;
-import ma.GymPro.dto.AchatDetailsDTO;
 import ma.GymPro.dto.CartDTO;
 import ma.GymPro.services.ClientServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,11 +54,6 @@ public class ClientController {
     @PostMapping("/cart")
     ResponseEntity<?> createCarte(@RequestBody CartDTO achat, Principal principal){
         try{
-            for (AchatDetailsDTO detailsDTO:achat.getAchatDetails()
-                 ) {
-                System.out.println( "Controller BEFORE Size="+detailsDTO.getQte());
-            }
-
             clientServices.createCart(achat,principal.getName());
             return new ResponseEntity( HttpStatus.OK);
         }catch (Exception e){

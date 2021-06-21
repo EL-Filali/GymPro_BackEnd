@@ -1,13 +1,16 @@
 package ma.GymPro.services;
 
+import com.amazonaws.services.s3.AmazonS3;
 import ma.GymPro.beans.Achat;
 import ma.GymPro.beans.Client;
 import ma.GymPro.beans.Coupon;
 import ma.GymPro.config.FactureCreator;
 import ma.GymPro.dto.CartDTO;
+import ma.GymPro.dto.CarteDTOResponse;
 import ma.GymPro.repositories.*;
 import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -32,7 +35,10 @@ public class ClientServices {
     private ServiceRepository serviceRepository;
     @Autowired
     private FactureCreator factureCreator;
-
+    @Autowired
+    private AmazonS3 amazonS3;
+    @Value("${aws.bucket.service}")
+    private String bucketName;
     public Page<Achat> getFactures(int pageNo, int pageSize, String sortBy, String email){
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
         return achatRepository.findByIsPaidAndClient_Email(true,email,paging);
@@ -70,13 +76,13 @@ public class ClientServices {
         achat.setClient(client);
         achatRepository.save(achat);
     }
-    public CartDTO getCart(String clientEmail) throws Exception {
+    public CarteDTOResponse getCart(String clientEmail) throws Exception {
         Achat achat =achatRepository.findByIsPaidAndClient_Email(false,clientEmail);
 
         if(achat==null)
             throw new Exception("ce client n a aucun panier ");
         else
-            return new CartDTO(achat);
+            return new CarteDTOResponse(achat,amazonS3,bucketName);
     }
     public void deleteFromCart(Long id, String clientEmail){
         Achat achat =achatRepository.findByIsPaidAndClient_Email(false,clientEmail);
@@ -88,7 +94,6 @@ public class ClientServices {
         Optional<ma.GymPro.beans.Service> optionalService=serviceRepository.findById(id);
         if(!optionalService.isPresent())
             throw new Exception("Aucun service avec cet ID");
-
         List<ma.GymPro.beans.Service> services=achat.getServices();
         services.add(optionalService.get());
         achat.setServices(services);
@@ -115,7 +120,6 @@ public class ClientServices {
         else
             throw new Exception("Aucune carte deja");
         achatRepository.save(achat);
-
         return factureCreator.createInvoice(achat);
     }
 
