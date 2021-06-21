@@ -3,7 +3,6 @@ package ma.GymPro.services;
 import com.amazonaws.services.s3.AmazonS3;
 import ma.GymPro.beans.*;
 import ma.GymPro.config.FactureCreator;
-import ma.GymPro.dto.CoursDTORequest;
 import ma.GymPro.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -101,14 +100,15 @@ public class ResponsableServices {
     public void deleteSceance(Long id){
         seanceRepository.deleteById(id);
     }
-    public void saveCours(CoursDTORequest coursDTORequest){
-        File file1=convertMultiPartFileToFile(coursDTORequest.getImg());
-        String path = coursDTORequest.getCours().getId() + "_" + file1.getName() + "_" + new Date().toString();
-        coursDTORequest.getCours().setImgPath(path);
-        amazonS3.putObject(bucketName, coursDTORequest.getCours().getImgPath(),file1);
-        coursRepository.save(coursDTORequest.getCours());
+    public void saveCours(Cours cours){
+        coursRepository.save(cours);
     }
-
+    public String  saveImgCours(   MultipartFile file){
+        File file1=convertMultiPartFileToFile(file);
+        String path = "_" + file1.getName() + "_" + new Date().toString();
+        amazonS3.putObject(bucketName, path,file1);
+        return path;
+    }
     private File convertMultiPartFileToFile(final MultipartFile multipartFile) {
         final File file = new File(multipartFile.getOriginalFilename());
         try (final FileOutputStream outputStream = new FileOutputStream(file)) {

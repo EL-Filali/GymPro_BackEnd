@@ -1,5 +1,7 @@
 package ma.GymPro.controller;
 
+import ma.GymPro.beans.Coupon;
+import ma.GymPro.dto.AchatDetailsDTO;
 import ma.GymPro.dto.CartDTO;
 import ma.GymPro.services.ClientServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +31,18 @@ public class ClientController {
             return new ResponseEntity(e,HttpStatus.BAD_REQUEST);
         }
     }
+    @DeleteMapping("/cart/services/{id}")
+    ResponseEntity<?> deleteFromCart(@PathVariable Long id ,Principal principal){
+        try {
+            clientServices.deleteFromCart(id,principal.getName());
+            return new ResponseEntity(
+                    HttpStatus.OK);
 
+        }catch (Exception e){
+            return new ResponseEntity(
+                    HttpStatus.BAD_REQUEST);
+        }
+    }
     @GetMapping("/factures/{id}")
     ResponseEntity<?> getFactures(@PathVariable Long id,Principal principal){
         try{
@@ -42,6 +55,11 @@ public class ClientController {
     @PostMapping("/cart")
     ResponseEntity<?> createCarte(@RequestBody CartDTO achat, Principal principal){
         try{
+            for (AchatDetailsDTO detailsDTO:achat.getAchatDetails()
+                 ) {
+                System.out.println( "Controller BEFORE Size="+detailsDTO.getQte());
+            }
+
             clientServices.createCart(achat,principal.getName());
             return new ResponseEntity( HttpStatus.OK);
         }catch (Exception e){
@@ -49,7 +67,7 @@ public class ClientController {
         }
     }
     @PostMapping("/factures/{idCoupon}")
-    ResponseEntity<?> reglerAchat(@RequestParam(required = false) Long idAchat,@PathVariable Long idCoupon,Principal principal){
+    ResponseEntity<?> reglerAchat(@PathVariable Long idCoupon,Principal principal){
         try{
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_PDF);
@@ -89,9 +107,9 @@ public class ClientController {
         }
     }
     @GetMapping("coupons")
-    ResponseEntity<?> checkCoupon(String reference){
+    ResponseEntity<?> checkCoupon(@RequestBody Coupon coupon){
         try {
-            return new ResponseEntity<>(clientServices.checkCoupon(reference),HttpStatus.OK);
+            return new ResponseEntity<>(clientServices.checkCoupon(coupon.getReference()),HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }

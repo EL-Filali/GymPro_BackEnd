@@ -51,30 +51,24 @@ public class ClientServices {
 
 
     public void createCart(CartDTO panier, String clientEmail){
-        //List<ma.GymPro.beans.Service> services=achat.getServices();
         Achat achat=new Achat(panier);
-
-        Client client=clientRepository.findByEmail(clientEmail);
+        System.out.println( "BEFORE Size="+achat.getServices().size());
+                Client client=clientRepository.findByEmail(clientEmail);
         List<Achat> achats=client.getAchat();
         achats.add(achat);
         client.setAchat(achats);
+        Achat achatIfExist=achatRepository.findByIsPaidAndClient_Email(false,clientEmail);
+        if(achatIfExist!=null){
+            List<ma.GymPro.beans.Service> services =achat.getServices();
+            List<ma.GymPro.beans.Service> serviceListIf=achatIfExist.getServices();
+            System.out.println( "Size="+serviceListIf.size() +"SIZE NEW =" +services.size());
+            services.addAll(serviceListIf);
+            achat.setServices(services);
+        }
         achatRepository.deleteAncienCart(client);
         clientRepository.save(client);
         achat.setClient(client);
         achatRepository.save(achat);
-       /* //achat.setServices(new ArrayList<>());
-
-        System.out.println("\n 1 \n");
-
-
-        System.out.println("\n 2 \n");
-        //achat.setServices(services);
-       // achatRepository.save(achat);
-        System.out.println("\n 3 \n");
-
-
-        ;*/
-
     }
     public CartDTO getCart(String clientEmail) throws Exception {
         Achat achat =achatRepository.findByIsPaidAndClient_Email(false,clientEmail);
@@ -87,6 +81,18 @@ public class ClientServices {
     public void deleteFromCart(Long id, String clientEmail){
         Achat achat =achatRepository.findByIsPaidAndClient_Email(false,clientEmail);
                 achat.getServices().removeIf(item -> item.getId().equals(id));
+                achatRepository.save(achat);
+    }
+    public void addToAChat(Long id ,String clientEmail) throws Exception {
+        Achat achat = achatRepository.findByIsPaidAndClient_Email(false,clientEmail);
+        Optional<ma.GymPro.beans.Service> optionalService=serviceRepository.findById(id);
+        if(!optionalService.isPresent())
+            throw new Exception("Aucun service avec cet ID");
+
+        List<ma.GymPro.beans.Service> services=achat.getServices();
+        services.add(optionalService.get());
+        achat.setServices(services);
+        achatRepository.save(achat);
     }
 
     public byte[] reglerAchat(Long idCoupon,String clientEmail) throws Exception {

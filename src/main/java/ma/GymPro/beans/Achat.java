@@ -13,6 +13,7 @@ import ma.GymPro.dto.CartDTO;
 import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -34,8 +35,10 @@ public class Achat {
    private List<Service> services;
 
     public Achat(CartDTO panier) {
+       services=new ArrayList<>();
        for (AchatDetailsDTO detailsDTO:panier.getAchatDetails()) {
-          for(int i=1;i<detailsDTO.getQte();i++)
+          System.out.println(detailsDTO.getQte()+"==="+detailsDTO.getService().id);
+          for(int i=0;i<detailsDTO.getQte();i++)
              services.add(detailsDTO.getService());
        }
     }

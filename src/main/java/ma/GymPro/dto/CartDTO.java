@@ -13,8 +13,8 @@ public class CartDTO {
 
     }
     public CartDTO(Achat achat){
-        achatDetails=new ArrayList<AchatDetailsDTO>();
-        HashMap<Service,Integer> details=new HashMap<Service,Integer>();
+        achatDetails=new ArrayList<>();
+        HashMap<Service,Integer> details=new HashMap<>();
         for (Service service:achat.getServices()) {
 
             if(details.containsKey(service)){

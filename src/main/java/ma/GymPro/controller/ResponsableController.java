@@ -1,7 +1,6 @@
 package ma.GymPro.controller;
 
 import ma.GymPro.beans.*;
-import ma.GymPro.dto.CoursDTORequest;
 import ma.GymPro.services.ResponsableServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,6 +49,17 @@ public class ResponsableController {
         return new ResponseEntity(responsableServices.saveImgAbonnement(file),HttpStatus.OK);
 
     }
+    @RequestMapping(value = "/cours", method = RequestMethod.POST)
+    public ResponseEntity<?> createCours(@RequestBody Cours cours){
+        responsableServices.saveCours(cours);
+        return new ResponseEntity(HttpStatus.OK);
+
+    }
+    @RequestMapping(value = "/cours/image", method = RequestMethod.POST)
+    public ResponseEntity<?> saveImgCours(@RequestParam("file") MultipartFile file){
+        return new ResponseEntity(responsableServices.saveImgCours(file),HttpStatus.OK);
+
+    }
 
    @PostMapping("/seances")
     public ResponseEntity<?> createSceance(@RequestBody Seance seance){
@@ -79,15 +89,7 @@ public class ResponsableController {
         }
     }
 
-    @PostMapping("/cours")
-    public ResponseEntity<?> createCours(@RequestBody CoursDTORequest coursDTORequest){
-        try{
-            responsableServices.saveCours(coursDTORequest);
-            return  new ResponseEntity(HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity(e,HttpStatus.BAD_REQUEST);
-        }
-    }
+
     @GetMapping("coachs")
     ResponseEntity<?> getCoachs(@RequestParam(defaultValue = "0") Integer pageNo,
                                 @RequestParam(defaultValue = "10") Integer pageSize,
