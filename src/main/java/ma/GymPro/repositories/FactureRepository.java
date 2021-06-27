@@ -13,7 +13,7 @@ public interface FactureRepository extends JpaRepository<Facture,Long> {
     Float sumMontantTotalFacture();
     @Query("select  sum(f.montant) from Facture f where f.date between :date1 and :date2")
     Float getMontantBetween(Date date1, Date date2);
-    @Query("select sum(f.montant) from Facture f ")
+    @Query("select count(f.montant) from Facture f ")
     Integer countFacture();
 
 }

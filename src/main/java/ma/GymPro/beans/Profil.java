@@ -34,4 +34,5 @@ public  class Profil {
       this.genre = genre;
       this.telephone = telephone;
    }
+
 }

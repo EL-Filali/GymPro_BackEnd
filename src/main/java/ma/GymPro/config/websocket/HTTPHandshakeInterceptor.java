@@ -40,23 +40,7 @@ public class HTTPHandshakeInterceptor implements HandshakeInterceptor {
             System.out.println(request.getPrincipal().getName());
     }
 
-    /*public Principal setPrincipal(ServerHttpRequest request){
-        String url = request.getURI().toString();
-        Pattern p = Pattern.compile("[&?]token=([^&\\r\\n]*)");
-        Matcher matcher = p.matcher(url);
-        if (matcher.find())
-        {
-            Optional<User> optionalUser = Optional.ofNullable(jwt.validate(matcher.group(1)));
-            if (optionalUser.isPresent()) {
-                User user = optionalUser.get();
-                List<GrantedAuthority> grantedAuthorities = AuthorityUtils
-                        .commaSeparatedStringToAuthorityList(user.getRole());
-                user.setName(user.getUsername());
-                return new UsernamePasswordAuthenticationToken(user.getName(), null, grantedAuthorities);
-            }
-        }
-        return null;
-    }
-*/
+
+
 
 }
