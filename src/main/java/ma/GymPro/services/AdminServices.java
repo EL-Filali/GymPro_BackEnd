@@ -114,8 +114,11 @@ public class AdminServices {
         String[] shortMonths = french_dfs.getShortMonths();
         List<String> label=new ArrayList<>();
         List<Float> data=new ArrayList<>();
-        for (int i=1;i<5;i++) {
-            data.add(factureRepository.getMontantBetween(getFirstDateOfLastMount(i),getLastDateOfLastMount(i)));
+        for (int i=0;i<4;i++) {
+            Float profit=factureRepository.getMontantBetween(getFirstDateOfLastMount(i),getLastDateOfLastMount(i));
+            if(profit==null)
+                profit=0.00F;
+            data.add(profit);
             label.add(Arrays.asList(shortMonths).get(getFirstDateOfLastMount(i).getMonth()));
         }
         DataSetsDTO dataSets=new DataSetsDTO();
@@ -129,6 +132,7 @@ public class AdminServices {
     public Date getFirstDateOfLastMount(Integer last){
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MONTH, -last);
+        System.out.println(cal.get(Calendar.MONTH));
         LocalDate initial = LocalDate.of(cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH));
                 LocalDate start = initial.withDayOfMonth(1);
         return Date.from(start.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
