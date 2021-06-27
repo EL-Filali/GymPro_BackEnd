@@ -1,4 +1,4 @@
-package ma.GymPro.config;
+package ma.GymPro.config.Scheduled;
 
 import ma.GymPro.services.ScheduledServices;
 import org.springframework.beans.factory.annotation.Autowired;

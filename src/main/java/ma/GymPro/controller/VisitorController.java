@@ -3,9 +3,9 @@ package ma.GymPro.controller;
 import ma.GymPro.beans.Admin;
 import ma.GymPro.beans.Client;
 import ma.GymPro.beans.Profil;
-import ma.GymPro.dto.ConnexionRequest;
-import ma.GymPro.dto.ConnexionResponse;
-import ma.GymPro.dto.CoursDTOResponse;
+import ma.GymPro.dto.connexion.ConnexionRequest;
+import ma.GymPro.dto.connexion.ConnexionResponse;
+import ma.GymPro.dto.cours.CoursDTOResponse;
 import ma.GymPro.repositories.AdminRepository;
 import ma.GymPro.services.VisitorServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +58,7 @@ public class VisitorController {
 
     @GetMapping("a")
     public void saveAdmin(){
-        Admin a=new Admin(null ,"admin@gympro.ma",false,null,new Profil(null,"Ahmed","allaoui","JK34159",new Date(),"Homme","0689123121")
+        Admin a=new Admin(null ,"admin@gympro.ma",false,null,new Profil(null,"Ahmed","allaoui","JK34159",null,new Date(),"Homme","0689123121")
                 ,null,null);
         a.setPassword(bCryptPasswordEncoder.encode("A1234"));
         adminRepository.save(a);

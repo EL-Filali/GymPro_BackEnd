@@ -2,7 +2,7 @@ package ma.GymPro.services;
 
 import com.amazonaws.services.s3.AmazonS3;
 import ma.GymPro.beans.*;
-import ma.GymPro.config.FactureCreator;
+import ma.GymPro.config.ocr.FactureCreator;
 import ma.GymPro.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -96,7 +96,7 @@ public class ResponsableServices {
         }
     }
 
-    public void saveSceance(Seance seance )  {
+    public void saveSceance(Seance seance ) throws Exception {
         Cours cours = coursRepository.findById(seance.getCours().getId()).get();
         Coach coach = coachRepository.findById(seance.getCoach().getId()).get();
         Jour jour = jourRepository.findById(seance.getJour().getId()).get();
@@ -104,7 +104,7 @@ public class ResponsableServices {
         seance.setCoach(null);
         seance.setCours(null);
         seanceRepository.save(seance);
-        seance.setCoach(coach);
+        seance.affecterCoach(coach);
         seance.setCours(cours);
         seance.setJour(jour);
         seanceRepository.save(seance);

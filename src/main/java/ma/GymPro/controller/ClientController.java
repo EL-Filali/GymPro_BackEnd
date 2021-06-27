@@ -1,7 +1,7 @@
 package ma.GymPro.controller;
 
 import ma.GymPro.beans.Coupon;
-import ma.GymPro.dto.CartDTO;
+import ma.GymPro.dto.cart.CartDTORequest;
 import ma.GymPro.services.ClientServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -52,7 +52,7 @@ public class ClientController {
     }
 
     @PostMapping("/cart")
-    ResponseEntity<?> createCarte(@RequestBody CartDTO achat, Principal principal){
+    ResponseEntity<?> createCarte(@RequestBody CartDTORequest achat, Principal principal){
         try{
             clientServices.createCart(achat,principal.getName());
             return new ResponseEntity( HttpStatus.OK);

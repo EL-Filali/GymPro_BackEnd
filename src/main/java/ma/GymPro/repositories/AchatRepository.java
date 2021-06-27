@@ -10,6 +10,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 
 @Repository
 public interface AchatRepository extends JpaRepository<Achat,Long> {
@@ -21,7 +25,7 @@ public interface AchatRepository extends JpaRepository<Achat,Long> {
      Achat findByIsPaidAndClient_Email(boolean paid, String clientEmail);
     @Transactional
     @Modifying
-    @Query("delete  from Achat a where a.isPaid<>true and a.client =:clientEmail ")
+    @Query("delete from Achat a where a.isPaid<>true and a.client =:clientEmail ")
      void deleteAncienCart( Client clientEmail);
 
 

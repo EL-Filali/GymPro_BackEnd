@@ -8,8 +8,8 @@ package ma.GymPro.beans;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ma.GymPro.dto.AchatDetailsDTO;
-import ma.GymPro.dto.CartDTO;
+import ma.GymPro.dto.achatDetails.AchatDetailsDTORequest;
+import ma.GymPro.dto.cart.CartDTORequest;
 import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
@@ -34,9 +34,9 @@ public class Achat {
    @ManyToMany(mappedBy = "")
    private List<Service> services;
 
-    public Achat(CartDTO panier) {
+    public Achat(CartDTORequest panier) {
        services=new ArrayList<>();
-       for (AchatDetailsDTO detailsDTO:panier.getAchatDetails()) {
+       for (AchatDetailsDTORequest detailsDTO:panier.getAchatDetails()) {
           System.out.println(detailsDTO.getQte()+"==="+detailsDTO.getService().id);
           for(int i=0;i<detailsDTO.getQte();i++)
              services.add(detailsDTO.getService());

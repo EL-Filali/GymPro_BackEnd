@@ -1,4 +1,4 @@
-package ma.GymPro.dto;
+package ma.GymPro.dto.cours;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.S3Object;

@@ -1,10 +1,12 @@
-package ma.GymPro.dto;
+package ma.GymPro.dto.cart;
 
 import com.amazonaws.services.s3.AmazonS3;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ma.GymPro.beans.Achat;
 import ma.GymPro.beans.Service;
+import ma.GymPro.dto.service.ServiceDTOResponse;
+import ma.GymPro.dto.achatDetails.AchatDetailsDTOResponse;
 
 import java.io.IOException;
 import java.util.*;

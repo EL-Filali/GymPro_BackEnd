@@ -2,11 +2,11 @@ package ma.GymPro.services;
 
 import com.amazonaws.services.s3.AmazonS3;
 import ma.GymPro.beans.*;
-import ma.GymPro.config.JwtTokenProvider;
-import ma.GymPro.dto.ConnexionRequest;
-import ma.GymPro.dto.ConnexionResponse;
-import ma.GymPro.dto.CoursDTOResponse;
-import ma.GymPro.dto.ServiceDTOResponse;
+import ma.GymPro.config.security.JwtTokenProvider;
+import ma.GymPro.dto.connexion.ConnexionRequest;
+import ma.GymPro.dto.connexion.ConnexionResponse;
+import ma.GymPro.dto.cours.CoursDTOResponse;
+import ma.GymPro.dto.service.ServiceDTOResponse;
 import ma.GymPro.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

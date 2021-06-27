@@ -1,4 +1,4 @@
-package ma.GymPro.config;
+package ma.GymPro.config.security;
 
 import ma.GymPro.services.CustomUserDetailsServices;
 import org.springframework.beans.factory.annotation.Autowired;

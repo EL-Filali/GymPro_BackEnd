@@ -2,7 +2,8 @@ package ma.GymPro.controller;
 
 
 import ma.GymPro.beans.Profil;
-import ma.GymPro.dto.ConnexionRequest;
+import ma.GymPro.dto.Message.MessageDTORequest;
+import ma.GymPro.dto.connexion.ConnexionRequest;
 import ma.GymPro.services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.security.Principal;
 
 @RestController
@@ -82,7 +84,16 @@ public class UserController {
             return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
-
+    @PostMapping("/topic/message")
+    public ResponseEntity<?> sendMessage(@RequestBody MessageDTORequest messageDTORequest, Principal principal) throws IOException {
+        try {
+            userServices.sendMessage(messageDTORequest, principal.getName());
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch(IOException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.OK);
+        }
+    }
 
 
 

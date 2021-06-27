@@ -6,6 +6,7 @@ import com.amazonaws.util.IOUtils;
 import ma.GymPro.beans.Profil;
 import ma.GymPro.beans.Seance;
 import ma.GymPro.beans.User;
+import ma.GymPro.dto.Message.MessageDTORequest;
 import ma.GymPro.repositories.ProfilRepository;
 import ma.GymPro.repositories.SeanceRepository;
 import ma.GymPro.repositories.ServiceRepository;
@@ -14,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,7 +40,8 @@ public class UserServices {
     private String bucketName;
     @Autowired
     ProfilRepository profilRepository;
-
+    @Autowired
+    SimpMessagingTemplate simpMessagingTemplate;
     @Autowired
     SeanceRepository seanceRepository;
 
@@ -119,8 +122,16 @@ public class UserServices {
        else
            throw new Exception("Sceance n'existe pas");
    }
-    
 
+    public void sendMessage(MessageDTORequest messageDTORequest, String email) throws IOException {
+
+
+
+        simpMessagingTemplate.convertAndSend("/topic/publicChatRoom",email+" :  "+messageDTORequest.getContenue());
+
+
+
+    }
 
 
 }

@@ -140,4 +140,12 @@ public class AdminController {
             return new ResponseEntity(e,HttpStatus.BAD_REQUEST);
         }
     }
+    @GetMapping("analytics")
+    ResponseEntity<?> getAnalytics(){
+        try{
+            return new ResponseEntity( adminServices.getAnalytics(), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity(e,HttpStatus.BAD_REQUEST);
+        }
+    }
 }

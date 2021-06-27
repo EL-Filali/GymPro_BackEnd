@@ -19,4 +19,10 @@ public interface EmployeRepository extends JpaRepository<Employe,Long> {
             "    WHEN TRUE THEN FALSE" +
             "    ELSE TRUE END WHERE a.id=:id")
     public void disableEmploye(@Param("id") Long id);
+
+
+    @Query("select sum(f.salaire) from Employe f")
+    Float sumSalaireEmploye();
+
+
 }

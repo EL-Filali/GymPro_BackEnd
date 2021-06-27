@@ -4,9 +4,9 @@ import com.amazonaws.services.s3.AmazonS3;
 import ma.GymPro.beans.Achat;
 import ma.GymPro.beans.Client;
 import ma.GymPro.beans.Coupon;
-import ma.GymPro.config.FactureCreator;
-import ma.GymPro.dto.CartDTO;
-import ma.GymPro.dto.CarteDTOResponse;
+import ma.GymPro.config.ocr.FactureCreator;
+import ma.GymPro.dto.cart.CartDTORequest;
+import ma.GymPro.dto.cart.CarteDTOResponse;
 import ma.GymPro.repositories.*;
 import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +56,7 @@ public class ClientServices {
     }
 
 
-    public void createCart(CartDTO panier, String clientEmail){
+    public void createCart(CartDTORequest panier, String clientEmail){
         Achat achat=new Achat(panier);
         System.out.println( "BEFORE Size="+achat.getServices().size());
                 Client client=clientRepository.findByEmail(clientEmail);

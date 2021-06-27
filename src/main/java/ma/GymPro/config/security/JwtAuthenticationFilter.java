@@ -1,4 +1,4 @@
-package ma.GymPro.config;
+package ma.GymPro.config.security;
 
 
 import com.google.gson.Gson;

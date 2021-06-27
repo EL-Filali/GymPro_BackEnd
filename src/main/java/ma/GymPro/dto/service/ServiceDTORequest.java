@@ -1,4 +1,4 @@
-package ma.GymPro.dto;
+package ma.GymPro.dto.service;
 
 import lombok.Data;
 import ma.GymPro.beans.Service;

@@ -1,6 +1,8 @@
 package ma.GymPro.services;
 
 import ma.GymPro.beans.*;
+import ma.GymPro.dto.Analytics.AnalyticsDTO;
+import ma.GymPro.dto.Analytics.DataSetsDTO;
 import ma.GymPro.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,7 +12,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.text.DateFormatSymbols;
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.ZoneId;
+import java.util.*;
 
 @Service
 public class AdminServices {
@@ -33,6 +39,9 @@ public class AdminServices {
 
     @Autowired
     AchatRepository achatRepository;
+
+    @Autowired
+    FactureRepository factureRepository;
 
     public Employe          getEmployeById  (Long id) throws Exception {
         Optional<Employe> opt =employeRepository.findById(id);
@@ -100,5 +109,37 @@ public class AdminServices {
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
         return responsableRepository.findAll(paging);
     }
+    public AnalyticsDTO getAnalytics(){
+        DateFormatSymbols french_dfs = new DateFormatSymbols(Locale.FRENCH);
+        String[] shortMonths = french_dfs.getShortMonths();
+        List<String> label=new ArrayList<>();
+        List<Float> data=new ArrayList<>();
+        for (int i=1;i<5;i++) {
+            data.add(factureRepository.getMontantBetween(getFirstDateOfLastMount(i),getLastDateOfLastMount(i)));
+            label.add(Arrays.asList(shortMonths).get(getFirstDateOfLastMount(i).getMonth()));
+        }
+        DataSetsDTO dataSets=new DataSetsDTO();
+        dataSets.setData(data);
+        dataSets.setLabel(label);
+        AnalyticsDTO analytics=new AnalyticsDTO(factureRepository.countFacture(),factureRepository.sumMontantTotalFacture()-employeRepository.sumSalaireEmploye(),clientRepository.countClientByStatusClient(new Actif()),dataSets);
 
+       return analytics;
+
+    }
+    public Date getFirstDateOfLastMount(Integer last){
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, -last);
+        LocalDate initial = LocalDate.of(cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH));
+                LocalDate start = initial.withDayOfMonth(1);
+        return Date.from(start.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+    }
+
+
+    public Date getLastDateOfLastMount(Integer last){
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, -last);
+        LocalDate initial = LocalDate.of(cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH));
+        LocalDate end = initial.withDayOfMonth(initial.lengthOfMonth());
+        return Date.from(end.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+    }
 }

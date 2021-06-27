@@ -1,6 +1,8 @@
 package ma.GymPro.repositories;
 
+import ma.GymPro.beans.Actif;
 import ma.GymPro.beans.Client;
+import ma.GymPro.beans.StatusClient;
 import ma.GymPro.beans.Suspendu;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -24,4 +26,7 @@ public interface ClientRepository extends JpaRepository<Client,Long> {
     @Modifying
     @Query("update  Client  c set c.statusClient=:suspendu,c.suspendu=true  where  current_date >c.dateFinAbonnement ")
     void VerificationAbonnement(Suspendu suspendu);
+
+    Integer countClientByStatusClient(StatusClient actif);
+
 }

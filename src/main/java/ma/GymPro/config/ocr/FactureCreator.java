@@ -1,4 +1,4 @@
-package ma.GymPro.config;
+package ma.GymPro.config.ocr;
 
 import com.itextpdf.barcodes.BarcodeQRCode;
 import com.itextpdf.io.image.ImageData;

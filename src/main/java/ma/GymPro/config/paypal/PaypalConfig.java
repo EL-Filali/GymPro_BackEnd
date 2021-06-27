@@ -1,4 +1,4 @@
-package ma.GymPro.config;
+package ma.GymPro.config.paypal;
 
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.OAuthTokenCredential;

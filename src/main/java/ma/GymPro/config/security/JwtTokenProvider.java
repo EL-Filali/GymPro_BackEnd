@@ -1,4 +1,4 @@
-package ma.GymPro.config;
+package ma.GymPro.config.security;
 
 import io.jsonwebtoken.*;
 import ma.GymPro.beans.User;

@@ -1,6 +1,7 @@
-package ma.GymPro.dto;
+package ma.GymPro.dto.achatDetails;
 
 import lombok.Data;
+import ma.GymPro.dto.service.ServiceDTOResponse;
 
 @Data
 public class AchatDetailsDTOResponse {
