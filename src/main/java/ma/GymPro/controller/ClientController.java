@@ -105,6 +105,16 @@ public class ClientController {
         try {
             return new ResponseEntity<>(clientServices.checkCoupon(coupon.getReference()),HttpStatus.OK);
         }catch (Exception e){
+
+            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
+    }
+    @GetMapping("coupon")
+    ResponseEntity<?> checkCoupons(@RequestBody Coupon coupon){
+        try {
+            return new ResponseEntity<>(clientServices.checkCoupon(coupon.getReference()),HttpStatus.OK);
+        }catch (Exception e){
+
             return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }

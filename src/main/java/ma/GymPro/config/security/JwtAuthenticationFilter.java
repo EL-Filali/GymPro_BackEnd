@@ -45,7 +45,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
             String jwt = getJWTFromRequest(httpServletRequest);
-
+            System.out.println("|"+jwt+"|");
             if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt, httpServletRequest)) {
                 Long userId = tokenProvider.getUserIdFromJWT(jwt);
                 User userDetails = customUserDetailsService.loadUserById(userId);
@@ -60,14 +60,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
         }catch (ExpiredJwtException ex){
+            System.out.println("ExpiredJwtException");
+
             setErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, httpServletResponse," JWT token Expiré");
         }catch (UnsupportedJwtException ex){
+            System.out.println("UnsupportedJwtException");
             setErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, httpServletResponse," JWT token non supporté");
         }catch (IllegalArgumentException ex){
+            System.out.println("IllegalArgumentException");
             setErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, httpServletResponse,"JWT claims string est vide");
         }catch (SignatureException ex){
+            System.out.println("SignatureException");
             setErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, httpServletResponse,"JWT pas bien signé");
         } catch (MalformedJwtException ex) {
+            System.out.println("MalformedJwtException");
             setErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, httpServletResponse,"JWT token pas bien formé");
         }
 
@@ -83,7 +89,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String bearerToken = request.getHeader(HEADER_STRING);
 
         if(StringUtils.hasText(bearerToken)&&bearerToken.startsWith(TOKEN_PREFIX)){
-            return bearerToken.substring(7, bearerToken.length());
+            return bearerToken.substring(7);
         }
 
         return null;
