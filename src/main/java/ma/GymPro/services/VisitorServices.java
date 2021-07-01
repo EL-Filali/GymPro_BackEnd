@@ -1,6 +1,8 @@
 package ma.GymPro.services;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.util.IOUtils;
 import ma.GymPro.beans.*;
 import ma.GymPro.config.security.JwtTokenProvider;
 import ma.GymPro.dto.connexion.ConnexionRequest;
@@ -28,7 +30,8 @@ public class VisitorServices {
 
     @Autowired
     private AmazonS3 amazonS3;
-
+    @Value("${aws.bucket}")
+    private String bucketName1;
     @Autowired
     ServiceRepository serviceRepository;
 
@@ -132,5 +135,10 @@ public class VisitorServices {
             return serviceDTO;
         }else
             throw new Exception("Aucun Service Avec cet id");
+    }
+    public byte[] getImg(String path) throws IOException {
+        S3Object s3object = amazonS3.getObject(bucketName1, path );
+        byte[] byteArray = IOUtils.toByteArray(s3object.getObjectContent());
+        return byteArray;
     }
 }

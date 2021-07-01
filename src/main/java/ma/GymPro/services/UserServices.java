@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -38,6 +39,7 @@ public class UserServices {
     ServiceRepository serviceRepository;
     @Value("${aws.bucket}")
     private String bucketName;
+
     @Autowired
     ProfilRepository profilRepository;
     @Autowired
@@ -89,7 +91,8 @@ public class UserServices {
         String path;
         File file1=convertMultiPartFileToFile(file);
        Profil profil =user.getProfil();
-       path=user.getProfil().getCin()+"_"+new Date().toString()+"_"+file1.getName();
+       SimpleDateFormat dateHeureFormat = new SimpleDateFormat("dd-MM-yyyy");
+       path=user.getProfil().getCin()+"_"+dateHeureFormat.format(new Date())+"_"+file1.getName();
        profil.setImgFileName(path);
        user.setProfil(profil);
        userRepository.save(user);
