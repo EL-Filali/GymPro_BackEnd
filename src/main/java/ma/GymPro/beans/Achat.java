@@ -62,7 +62,7 @@ public class Achat {
       if(coupon.isExpired()&&coupon==null)
          facture.setMontant(somme);
       else
-         facture.setMontant(somme*coupon.getRemise());
+         facture.setMontant(somme*(1-coupon.getRemise()));
       facture.setDate(new Date());
       this.facture=facture;
 

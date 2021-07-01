@@ -13,28 +13,4 @@ import java.util.Map;
 @Configuration
 public class PaypalConfig {
 
-    @Value("${paypal.clientid}")
-    private  String clientId;
-    @Value("${paypal.secret}")
-    private String secret;
-
-    @Bean
-    public Map<String, String> paypalSdkConfig() {
-        Map<String, String> configMap = new HashMap<>();
-        configMap.put("mode", "sandbox");
-        return configMap;
-    }
-
-    @Bean
-    public OAuthTokenCredential oAuthTokenCredential() {
-        return new OAuthTokenCredential(clientId, secret, paypalSdkConfig());
-    }
-
-    @Bean
-    public APIContext apiContext() throws PayPalRESTException {
-        APIContext context = new APIContext(oAuthTokenCredential().getAccessToken());
-        context.setConfigurationMap(paypalSdkConfig());
-        return context;
-    }
-
 }

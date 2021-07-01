@@ -7,11 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class AnalyticsDTO {
+    private List<ClientAnalyticsDTO> last5Clients;
     private Integer nombreFactures;
     private Float revenue;
     private  Integer nombreClient;

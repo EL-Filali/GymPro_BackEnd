@@ -89,14 +89,14 @@ public class UserServices {
         String path;
         File file1=convertMultiPartFileToFile(file);
        Profil profil =user.getProfil();
-       path=user.getProfil().getCin()+"_"+file1.getName()+"_"+new Date().toString();
+       path=user.getProfil().getCin()+"_"+new Date().toString()+"_"+file1.getName();
        profil.setImgFileName(path);
        user.setProfil(profil);
        userRepository.save(user);
        amazonS3.putObject(
                bucketName, user.getProfil().getImgFileName(),file1);
    }
-   //
+
    public byte[] getImg(String name) throws IOException {
        User user = userRepository.findByEmail(name);
 

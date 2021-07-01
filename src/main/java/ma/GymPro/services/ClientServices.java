@@ -100,7 +100,7 @@ public class ClientServices {
         achatRepository.save(achat);
     }
 
-    public byte[] reglerAchat(Long idCoupon,String clientEmail) throws Exception {
+    public byte[] reglerAchatAvecCoupon(Long idCoupon,String clientEmail) throws Exception {
         Achat achat=achatRepository.findByIsPaidAndClient_Email(false,clientEmail);
         Client client=clientRepository.findByEmail(clientEmail);
         Optional<Coupon> optionalCoupon=couponRepository.findById(idCoupon);
@@ -113,7 +113,7 @@ public class ClientServices {
 
         return factureCreator.createInvoice(achat);
     }
-    public byte[] reglerAchat(String clientEmail) throws Exception {
+    public byte[] reglerAchatSansCoupon(String clientEmail) throws Exception {
         Achat achat=achatRepository.findByIsPaidAndClient_Email(false,clientEmail);
         if(achat!=null)
             achat.payerAchat();
@@ -122,6 +122,17 @@ public class ClientServices {
         achatRepository.save(achat);
         return factureCreator.createInvoice(achat);
     }
+
+
+    public byte[] reglerAchat(Long idCoupon,String clientEmail) throws Exception {
+       if(idCoupon==null){
+          return reglerAchatSansCoupon(clientEmail);
+       }else{
+          return reglerAchatAvecCoupon(idCoupon,clientEmail);
+       }
+    }
+
+
 
 
 

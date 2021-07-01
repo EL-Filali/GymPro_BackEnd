@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 @Transactional
@@ -28,5 +29,6 @@ public interface ClientRepository extends JpaRepository<Client,Long> {
     void VerificationAbonnement(Suspendu suspendu);
 
     Integer countClientByStatusClient(StatusClient actif);
+    List<Client> findTop5ByOrderByDateCreation();
 
 }

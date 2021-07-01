@@ -2,6 +2,7 @@ package ma.GymPro.services;
 
 import ma.GymPro.beans.*;
 import ma.GymPro.dto.Analytics.AnalyticsDTO;
+import ma.GymPro.dto.Analytics.ClientAnalyticsDTO;
 import ma.GymPro.dto.Analytics.DataSetsDTO;
 import ma.GymPro.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -121,10 +122,16 @@ public class AdminServices {
             data.add(profit);
             label.add(Arrays.asList(shortMonths).get(getFirstDateOfLastMount(i).getMonth()));
         }
+        List<Client> clientList=clientRepository.findTop5ByOrderByDateCreation();
+        List<ClientAnalyticsDTO> clientAnalyticsDTOS=new ArrayList<>();
+        for (Client client:clientList
+             ) {clientAnalyticsDTOS.add(new ClientAnalyticsDTO(client));
+
+        }
         DataSetsDTO dataSets=new DataSetsDTO();
         dataSets.setData(data);
         dataSets.setLabel(label);
-        AnalyticsDTO analytics=new AnalyticsDTO(factureRepository.countFacture(),factureRepository.sumMontantTotalFacture()-employeRepository.sumSalaireEmploye(),clientRepository.countClientByStatusClient(new Actif()),dataSets);
+        AnalyticsDTO analytics=new AnalyticsDTO(clientAnalyticsDTOS, factureRepository.countFacture(), factureRepository.sumMontantTotalFacture()-employeRepository.sumSalaireEmploye(), clientRepository.countClientByStatusClient(new Actif()), dataSets);
 
        return analytics;
 

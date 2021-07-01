@@ -1,8 +1,11 @@
 
 package ma.GymPro.beans;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.*;
+@Data
 @Entity
 public class Coach extends Employe {
 
@@ -17,37 +20,8 @@ public class Coach extends Employe {
       this.dateCreation=new Date();
       super.role="coach";
       isBanned=false;
+      maxNbSeance=10;
    }
 
-   public Long getId() {
-      return id;
-   }
 
-   public void setId(Long id) {
-      this.id = id;
-   }
-
-   public int getNbSeance() {
-      return nbSeance;
-   }
-
-   public void setNbSeance(int nbSeance) {
-      this.nbSeance = nbSeance;
-   }
-
-   public int getMaxNbSeance() {
-      return maxNbSeance;
-   }
-
-   public void setMaxNbSeance(int maxNbSeance) {
-      this.maxNbSeance = maxNbSeance;
-   }
-
-   public List<Seance> getSeances() {
-      return seances;
-   }
-
-   public void setSeances(List<Seance> seances) {
-      this.seances = seances;
-   }
 }

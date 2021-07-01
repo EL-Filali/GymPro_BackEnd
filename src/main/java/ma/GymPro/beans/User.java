@@ -26,6 +26,7 @@ public abstract class User implements UserDetails {
    protected Date dateCreation;
 
 
+
    @OneToMany
    protected List<Conversation> conversations;
 

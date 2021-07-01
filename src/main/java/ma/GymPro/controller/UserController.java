@@ -96,7 +96,25 @@ public class UserController {
     }
 
 
+    @GetMapping("/seances/{id}")
+    public ResponseEntity<?> getSeance(@PathVariable Long id){
+        try{
+            return new ResponseEntity(userServices.getSceance(id),HttpStatus.OK);
+        }catch(Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.OK);
+        }
+    }
 
-
+   @GetMapping("/image/{imgpath}")
+    public ResponseEntity<?> getImage( @PathVariable String imgpath,Principal principal) {
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.IMAGE_JPEG);
+            return new ResponseEntity(userServices.getImg(principal.getName()),headers,HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 
 }

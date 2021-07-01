@@ -60,26 +60,17 @@ public class ClientController {
             return new ResponseEntity(e,HttpStatus.BAD_REQUEST);
         }
     }
-    @PostMapping("/factures/{idCoupon}")
-    ResponseEntity<?> reglerAchat(@PathVariable Long idCoupon,Principal principal){
-        try{
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_PDF);
-            return new ResponseEntity( clientServices.reglerAchat(idCoupon, principal.getName()),headers, HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity(e,HttpStatus.BAD_REQUEST);
-        }
-    }
     @PostMapping("/factures/")
-    ResponseEntity<?> reglerAchat(Principal principal){
+    ResponseEntity<?> reglerAchat(@RequestBody Coupon coupon, Principal principal){
         try{
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_PDF);
-            return new ResponseEntity( clientServices.reglerAchat( principal.getName()),headers, HttpStatus.OK);
+            return new ResponseEntity(clientServices.reglerAchat(coupon.getId(), principal.getName()),headers, HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity(e,HttpStatus.BAD_REQUEST);
         }
     }
+
     @GetMapping("/cart")
     ResponseEntity<?> getCart(Principal principal){
         try{
