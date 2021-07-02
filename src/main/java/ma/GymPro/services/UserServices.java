@@ -57,8 +57,9 @@ public class UserServices {
 
     public void updateProfile(Profil profil,String email){
         User    user =userRepository.findByEmail(email);
+        profil.setImgFileName(user.getProfil().getImgFileName());
         user.setProfil(profil);
-         userRepository.save(user);
+        userRepository.save(user);
     }
 
     public void updateMotDePasse(String motDePasse,String email){
