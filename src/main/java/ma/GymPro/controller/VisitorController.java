@@ -109,14 +109,18 @@ public class VisitorController {
 
 
     @GetMapping("seances")
-    public ResponseEntity<?> getAllSeances(){
+    public ResponseEntity<?> getAllSeances(@RequestParam(defaultValue = "0") Integer pageNo,
+                                           @RequestParam(defaultValue = "10") Integer pageSize,
+                                           @RequestParam(defaultValue = "id") String sortBy){
         try{
 
-            return new ResponseEntity(visitorServices.getAllSeance(),HttpStatus.OK);
+            return new ResponseEntity(visitorServices.getAllSeance(pageNo,pageSize,sortBy),HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity(e,HttpStatus.BAD_REQUEST);
         }
     }
+
+
     @GetMapping("/image/{imgpath}")
     public ResponseEntity<?> getImage(@PathVariable String imgpath, Principal principal) {
         try {

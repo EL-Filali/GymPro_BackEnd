@@ -102,12 +102,11 @@ public class ClientServices {
 
     public byte[] reglerAchatAvecCoupon(Long idCoupon,String clientEmail) throws Exception {
         Achat achat=achatRepository.findByIsPaidAndClient_Email(false,clientEmail);
-        Client client=clientRepository.findByEmail(clientEmail);
         Optional<Coupon> optionalCoupon=couponRepository.findById(idCoupon);
         if(optionalCoupon.isPresent())
             achat.payerAchat(optionalCoupon.get());
         else
-            achat.payerAchat(optionalCoupon.get());
+            throw  new Exception("Coupon invalid");
 
         achatRepository.save(achat);
 

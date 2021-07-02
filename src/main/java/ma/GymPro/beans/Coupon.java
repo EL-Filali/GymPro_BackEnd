@@ -10,6 +10,7 @@ import lombok.Setter;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import java.util.*;
 @Entity
 @Getter @Setter
@@ -22,6 +23,10 @@ public class Coupon {
    private boolean expired;
    private Date dateExpiration;
 
+   @PrePersist
+   private void prePersist(){
+      expired=false;
+   }
 
 
 }

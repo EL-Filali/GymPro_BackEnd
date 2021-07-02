@@ -12,6 +12,10 @@ import ma.GymPro.dto.service.ServiceDTOResponse;
 import ma.GymPro.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -61,8 +65,9 @@ public class VisitorServices {
     @Autowired
     SeanceRepository seanceRepository;
 
-    public List<Seance> getAllSeance(){
-        return seanceRepository.findAll();
+    public Page<Seance> getAllSeance(int pageNo, int pageSize, String sortBy){
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+        return seanceRepository.findAll(paging);
     }
 
     public ConnexionResponse  connexion(ConnexionRequest request){

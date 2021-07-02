@@ -58,11 +58,14 @@ public class Achat {
             this.client.achatAbonnement(abonnement);
          }
       }
+      System.out.println("Somme="+somme);
       isPaid=true;
       if(coupon.isExpired()&&coupon==null)
          facture.setMontant(somme);
-      else
-         facture.setMontant(somme*(1-coupon.getRemise()));
+      else {
+         facture.setMontant(somme * (1 - coupon.getRemise()));
+         System.out.println("Somme="+somme+" montant ="+facture.getMontant());
+      }
       facture.setDate(new Date());
       this.facture=facture;
 

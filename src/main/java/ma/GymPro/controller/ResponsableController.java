@@ -80,8 +80,8 @@ public class ResponsableController {
             return new ResponseEntity(e,HttpStatus.BAD_REQUEST);
         }
     }
-    @PutMapping("/seances/{id}")
-    public ResponseEntity<?> updateSceance(@PathVariable Seance seance){
+    @PutMapping("/seances")
+    public ResponseEntity<?> updateSceance(@RequestBody Seance seance){
         try{
             responsableServices.saveSceance(seance);
             return  new ResponseEntity(HttpStatus.OK);
