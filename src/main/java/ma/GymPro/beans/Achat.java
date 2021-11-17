@@ -89,4 +89,8 @@ public class Achat {
       this.facture=facture;
 
    }
+
+   public Achat(Long id) {
+      this.id = id;
+   }
 }

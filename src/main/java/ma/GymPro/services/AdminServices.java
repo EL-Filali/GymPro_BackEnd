@@ -91,6 +91,13 @@ public class AdminServices {
         return achatRepository.findAll(paging);
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     * @throws Exception
+     *
+     */
     public Achat getFacture(Long id) throws Exception {
 
         Optional<Achat> achatOptional= achatRepository.findById(id);
